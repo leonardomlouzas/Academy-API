@@ -1,6 +1,7 @@
 from app.configs.database import db
 from sqlalchemy import Column, Integer, String
 from dataclasses import dataclass
+from .treino_exercicio_table import treino_exercicio
 
 @dataclass
 class ExercicioModel(db.Model):
@@ -11,7 +12,7 @@ class ExercicioModel(db.Model):
     carga: str
     estimulo: str
 
-    __tablename__='exercicios'
+    __tablename__='exercicio'
 
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
@@ -22,5 +23,11 @@ class ExercicioModel(db.Model):
 
     aparelho_id = db.Column(
       db.Integer, 
-      db.ForeignKey('aparelho.id')
+      db.ForeignKey('equipment.id')
     )
+
+    treino = db.relationship(
+      "TreinoModel",
+      secondary=treino_exercicio,
+      backref="exercicios"
+  )

@@ -12,7 +12,7 @@ class TreinoModel(db.Model):
 
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
-    dia = Column(String, bullable=False)
+    dia = Column(String, nullable=False)
 
     personal_id = db.Column(
       db.Integer, 
