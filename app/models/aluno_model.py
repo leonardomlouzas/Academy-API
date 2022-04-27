@@ -26,3 +26,5 @@ class AlunoModel(db.Model):
       db.Integer, 
       db.ForeignKey('personal.id')
     )
+
+    treinos = db.relationship("TreinoModel", backref="aluno",uselist=True)
