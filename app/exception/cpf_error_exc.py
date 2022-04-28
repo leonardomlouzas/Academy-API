@@ -1,0 +1,2 @@
+class CPFError(Exception):
+    pass

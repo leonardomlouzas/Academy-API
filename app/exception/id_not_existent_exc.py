@@ -1,0 +1,2 @@
+class IDNotExistent(Exception):
+    pass

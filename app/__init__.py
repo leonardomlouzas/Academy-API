@@ -1,5 +1,6 @@
-from app import routes
 from flask import Flask
+
+from app import routes
 from app.configs import database, jwt, migration
 
 
