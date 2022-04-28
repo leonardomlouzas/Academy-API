@@ -1,16 +1,16 @@
-"""creating training and exercices models and pivot tabel
+"""empty message
 
-Revision ID: ca74f7aaba18
-Revises: f678911756a5
-Create Date: 2022-04-27 12:04:21.925398
+Revision ID: eadaea9c4262
+Revises: ca74f7aaba18
+Create Date: 2022-04-27 15:01:09.007348
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = 'ca74f7aaba18'
-down_revision = 'f678911756a5'
+revision = 'eadaea9c4262'
+down_revision = 'ca74f7aaba18'
 branch_labels = None
 depends_on = None
 
@@ -22,6 +22,20 @@ def upgrade():
     sa.Column('nome', sa.String(), nullable=False),
     sa.Column('codigo', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('aluno',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('nome', sa.String(), nullable=False),
+    sa.Column('telefone', sa.String(), nullable=False),
+    sa.Column('email', sa.String(), nullable=False),
+    sa.Column('peso', sa.Integer(), nullable=True),
+    sa.Column('altura', sa.Integer(), nullable=True),
+    sa.Column('imc', sa.Integer(), nullable=True),
+    sa.Column('personal_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['personal_id'], ['personal.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('telefone')
     )
     op.create_table('exercicio',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -60,5 +74,6 @@ def downgrade():
     op.drop_table('treino_exercicio')
     op.drop_table('treino')
     op.drop_table('exercicio')
+    op.drop_table('aluno')
     op.drop_table('equipment')
     # ### end Alembic commands ###

@@ -1,7 +1,11 @@
-from app.configs.database import db
-from sqlalchemy import Column, Integer, String
 from dataclasses import dataclass
+
+from sqlalchemy import Column, Integer, String
+
+from app.configs.database import db
+
 from .treino_exercicio_table import treino_exercicio
+
 
 @dataclass
 class ExercicioModel(db.Model):
