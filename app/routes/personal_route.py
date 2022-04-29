@@ -4,10 +4,11 @@ from app.controllers import personal_controller
 
 bp = Blueprint("personal", __name__, url_prefix="/personal")
 
-bp.post("")(personal_controller.create_personal)
-bp.patch("/<int:personal_id>")(personal_controller.update_personal)
-bp.delete("/<int:personal_id>")(personal_controller.delete_personal)
+bp.post("/signup")(personal_controller.signup)
+bp.post("/signin")(personal_controller.signin)
+bp.patch("")(personal_controller.update_personal)
+bp.delete("")(personal_controller.delete_personal)
 bp.get("")(personal_controller.retrieve_personal)
-bp.get("/<int:personal_id>")(personal_controller.retrieve_personal_id)
+bp.get("")(personal_controller.retrieve_personal_id)
 
 
