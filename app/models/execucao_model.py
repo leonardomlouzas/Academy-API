@@ -1,6 +1,8 @@
 from app.configs.database import db
 from sqlalchemy import Column, Integer, String
 from dataclasses import dataclass
+from sqlalchemy.orm import validates
+from app.exception.type_error_exc import TypeNotAccepted
 
 @dataclass
 class ExercicioModel(db.Model):
@@ -27,3 +29,10 @@ class ExercicioModel(db.Model):
       "ExercicioModel",
       backref=db.backref("execucao", uselist=False)
     )
+
+    @validates("series", "repeticoes", "carga")
+    def validate(self, key, value):
+      if type(value) != str and key in ["carga"]:
+        raise TypeNotAccepted("Carga deve ser string")
+      if type(value) != int and key in ["series", "repeticoes"]:
+        raise TypeNotAccepted("Series e repeticoes devem ser inteiros")

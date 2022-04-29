@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-
 from sqlalchemy import Column, Integer, String
-
+from sqlalchemy.orm import validates
 from app.configs.database import db
+from app.exception.type_error_exc import TypeNotAccepted
 
 
 @dataclass
@@ -26,3 +26,8 @@ class TreinoModel(db.Model):
       db.Integer, 
       db.ForeignKey('aluno.id')
     )
+
+    @validates("nome", "dia")
+    def validate(self, key, value):
+      if type(value) != str:
+        raise TypeNotAccepted("As chaves passadas devem ser strings")
