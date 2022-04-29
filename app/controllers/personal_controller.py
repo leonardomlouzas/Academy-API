@@ -3,6 +3,7 @@ from http import HTTPStatus
 from flask import jsonify, request
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 from app.configs.database import db
 from app.exception.cpf_error_exc import CPFError
@@ -11,7 +12,7 @@ from app.exception.password_error_exc import PasswordError
 from app.models.personal_model import PersonalModel
 
 
-def create_personal():
+def signup():
     data = request.get_json()
     try:       
         new_data = PersonalModel.validate_keys(data)
@@ -37,18 +38,33 @@ def create_personal():
         return {'msg': 'As chaves: nome,  email, CPF e senha são obrigatórias'}, HTTPStatus.NOT_FOUND
     
 
-def update_personal(personal_id: int):
+def signin():
+    data = request.get_json()
+    
+    personal: PersonalModel = PersonalModel.query.filter_by(email=data['email']).first()
+    
+    if not personal or not personal.check_password(data['senha']):
+        return {'msg': "email ou senha incorretos"}, HTTPStatus.NOT_FOUND
+        
+    return {"token": create_access_token(personal)}, HTTPStatus.OK
+
+@jwt_required()
+def update_personal():
     data = request.get_json() 
+    current_personal = get_jwt_identity()
+    
     try:
-        return jsonify(PersonalModel.update_personal(personal_id, data)), HTTPStatus.OK
+        return jsonify(PersonalModel.update_personal(current_personal['id'], data)), HTTPStatus.OK
     except IDNotExistent: 
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
     except KeyError:
         return {'msg': 'A(s) chave(s) não foi encontrada'}, HTTPStatus.NOT_FOUND
 
-def delete_personal(personal_id: int):
+@jwt_required()
+def delete_personal():
+    current_personal = get_jwt_identity()
     try:
-        PersonalModel.delete(personal_id)        
+        PersonalModel.delete(current_personal['id'])        
         return "", HTTPStatus.NO_CONTENT
     except IDNotExistent: 
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
@@ -57,9 +73,10 @@ def delete_personal(personal_id: int):
 def retrieve_personal():    
     return {"personal": PersonalModel.read_personal()}, HTTPStatus.OK
 
-def retrieve_personal_id(personal_id: int):
+def retrieve_personal_id():
+    current_personal = get_jwt_identity()
     try:
-        return jsonify(PersonalModel.select_by_id(personal_id)), HTTPStatus.OK
+        return jsonify(PersonalModel.select_by_id(current_personal['id'])), HTTPStatus.OK
     except IDNotExistent: 
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
     
