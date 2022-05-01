@@ -1,0 +1,2 @@
+class TypeKeyError(Exception):
+    pass
