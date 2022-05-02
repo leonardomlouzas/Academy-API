@@ -2,9 +2,8 @@ from http import HTTPStatus
 from app.configs.database import db
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_key_error_exc import TypeKeyError
-from app.models.equipment_model import EquipmentModel
 from app.models.exercicio_model import ExercicioModel
-from flask import jsonify, request
+from flask import jsonify, request, session
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.session import Session
@@ -18,7 +17,7 @@ def create_exercise():
         ExercicioModel.validates_fields(data)
         exercise = ExercicioModel(**data)
 
-        ExercicioModel.add_session(EquipmentModel)
+        ExercicioModel.add_session(exercise)
 
         return jsonify(exercise), HTTPStatus.CREATED
     except IntegrityError as error:
@@ -41,4 +40,17 @@ def update(exercise_id):
 def delete(exercise_id):
     try:
         ExercicioModel.delete_exercise(exercise_id)
-        return
+        return "", HTTPStatus.NO_CONTENT
+    except IDNotExistent:
+        return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
+
+def acess():
+    session: Session = db.session()
+    exercises = session.query(ExercicioModel).all()
+    return exercises, HTTPStatus.OK
+
+def acess_by_id(exercise_id):
+    try:
+        return jsonify(ExercicioModel.select_by_id(exercise_id)), HTTPStatus.OK
+    except IDNotExistent:
+        return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
