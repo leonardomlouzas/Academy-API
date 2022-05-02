@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-
 from sqlalchemy import Column, Integer, String
-
 from app.configs.database import db
-
+from sqlalchemy.orm import validates
+from app.exception.type_error_exc import TypeNotAccepted
 from .treino_exercicio_table import treino_exercicio
 
 
@@ -28,4 +27,9 @@ class ExercicioModel(db.Model):
       "TreinoModel",
       secondary=treino_exercicio,
       backref="exercicios"
-  )
+    )
+
+    @validates("nome", "estimulo")
+    def validate(self, key, value):
+      if type(value) != str:
+        raise TypeNotAccepted("As chaves passadas devem ser strings")

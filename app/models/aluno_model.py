@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-
 from sqlalchemy import Column, Integer, String
-
 from app.configs.database import db
-
+from sqlalchemy.orm import validates
+from app.exception.type_error_exc import TypeNotAccepted
 
 @dataclass
 class AlunoModel(db.Model):
@@ -12,8 +11,8 @@ class AlunoModel(db.Model):
     telefone: str
     email: str
     peso: int
-    altura: int
-    imc: int
+    altura: float
+    imc: float
 
     __tablename__ = 'aluno'
 
@@ -31,3 +30,13 @@ class AlunoModel(db.Model):
     )
 
     treinos = db.relationship("TreinoModel", backref="aluno",uselist=True)
+
+    @validates("nome", "telefone", "email", "peso", "altura")
+    def valdate(self, key, value):
+      
+      if type(value) != str and key in ["nome", "telefone", "email"]:
+        raise TypeNotAccepted("Nome, telefone e email devem ser strings")
+      if type(value) != int and key == 'peso':
+        raise TypeNotAccepted("Peso deve ser inteiro")
+      if type(value) != float and key in ['altura', 'imc']:
+        raise TypeNotAccepted("Altura e imc devem ser float")
