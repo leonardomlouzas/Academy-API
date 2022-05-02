@@ -3,7 +3,16 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import validates
 from app.configs.database import db
 from app.exception.type_error_exc import TypeNotAccepted
+import enum
 
+class EnumName(str, enum.Enum):
+
+    A = "A"
+    B = "B"
+    C = "C"
+    D = "D"
+    E = "E"
+    F = "F"
 
 @dataclass
 class TreinoModel(db.Model):
@@ -14,7 +23,7 @@ class TreinoModel(db.Model):
     __tablename__ = 'treino'
 
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
+    nome = Column(enum.Enum(EnumName), nullable=False)
     dia = Column(String, nullable=False)
 
     personal_id = db.Column(
