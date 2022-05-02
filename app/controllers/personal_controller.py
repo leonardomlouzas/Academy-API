@@ -73,6 +73,7 @@ def delete_personal():
 def retrieve_personal():    
     return {"personal": PersonalModel.read_personal()}, HTTPStatus.OK
 
+@jwt_required()
 def retrieve_personal_id():
     current_personal = get_jwt_identity()
     try:
