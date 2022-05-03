@@ -3,6 +3,9 @@ from app.configs.database import db
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_key_error_exc import TypeKeyError
 from app.models.treino_model import TreinoModel
+from app.models.personal_model import PersonalModel
+from app.models.exercicio_model import ExercicioModel
+from app.models.aluno_model import AlunoModel
 from flask import jsonify, request
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
@@ -16,9 +19,20 @@ def create():
 
     try:
         TreinoModel.validates_fields(data)
+
+        get_personal = data.pop('personal')
+        get_aluno = data.pop('aluno')
+        get_exercicios = data.pop('exercicios')
+        data['personal_id'] = PersonalModel.query.filter_by(nome=get_personal).first_or_404().id
+        data['aluno_id'] = AlunoModel.query.filter_by(nome=get_aluno).first_or_404().id
+
         training = TreinoModel(**data)
 
-        TreinoModel.add_training(training)
+        for exercicio in get_exercicios:
+            ex = ExercicioModel.query.filter_by(nome=exercicio).firt_or_404()
+            training.exercicios.append(ex)
+
+        TrainingModel.add_training(training)
 
         return jsonify(training), HTTPStatus.CREATED
     except IntegrityError as error:
@@ -28,6 +42,8 @@ def create():
         return {'msg': 'É esperado que a chave seja uma string'}, HTTPStatus.CONFLICT
     except TypeError:
         return {'msg': 'Chaves nome, personal, aluno, dia e exercícios são obrigatórias'}
+
+
 
 
 @jwt_required()
