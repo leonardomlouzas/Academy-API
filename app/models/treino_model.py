@@ -21,6 +21,7 @@ class EnumTreinoName(str, enum.Enum):
     F = "F"
 
 
+
 @dataclass
 class TreinoModel(db.Model):
     id: int
@@ -49,31 +50,27 @@ class TreinoModel(db.Model):
         raise TypeNotAccepted("As chaves passadas devem ser strings")
       return value
 
-
     @classmethod
     def validates_fields(cls, payload):
       for key, value in payload.items():
         if key == 'nome' and type(value) != str:
           raise TypeError
         
-
     @classmethod
     def add_training(cls, payload):
       session: Session = db.session()
       session.add(payload)
       session.commit()
 
-
     @classmethod
-    def select_by_id(cls, treino_id):
+    def select_by_id(cls, training_id):
       session: Session = db.session()
-      training = session.query(cls).get(treino_id)
+      training = session.query(cls).get(training_id)
 
       if not training:
         raise IDNotExistent
 
       return training
-
 
     @classmethod
     def update_training(cls, treino_id, payload):
@@ -96,7 +93,6 @@ class TreinoModel(db.Model):
         cls.add_training(training)
 
       return training
-
 
     @classmethod
     def delete_training(cls, training_id):
