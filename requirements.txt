@@ -6,6 +6,7 @@ click==8.1.2
 decorator==5.1.1
 executing==0.8.3
 Flask==2.1.1
+Flask-Cors==3.0.10
 Flask-JWT-Extended==4.3.1
 Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
@@ -37,7 +38,7 @@ SQLAlchemy==1.4.35
 stack-data==0.2.0
 tomli==2.0.1
 traitlets==5.1.1
-typing_extensions==4.2.0
+typing-extensions==4.2.0
 wcwidth==0.2.5
 Werkzeug==2.1.1
 zipp==3.8.0
