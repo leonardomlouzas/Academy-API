@@ -68,22 +68,22 @@ def update(treino_id):
 
 
 def access():
-    session: Session = db.treino()
+    session: Session = db.session()
     training = session.query(TreinoModel).all()
-    return training, HTTPStatus.OK
+    return jsonify(training), HTTPStatus.OK
 
 
-def access_by_id(training_id):
+def access_by_id(treino_id):
     try:
-        return jsonify(TreinoModel.select_by_id(training_id)), HTTPStatus.OK
+        return jsonify(TreinoModel.select_by_id(treino_id)), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
 
 @jwt_required()
-def delete(training_id):
+def delete(treino_id):
     try:
-        TreinoModel.delete_training(training_id)
-        return "", HTTPStatus.NO_CONTENT
+        TreinoModel.delete_training(treino_id)
+        return {'msg': 'Treino removido'}, HTTPStatus.NO_CONTENT
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
