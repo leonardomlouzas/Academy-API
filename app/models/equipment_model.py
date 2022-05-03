@@ -18,7 +18,12 @@ class EquipmentModel(db.Model):
 
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False, unique=True)
-    codigo = Column(Integer, nullable=False)
+    codigo = Column(Integer, nullable=False, unique=True)
+
+    exercicio = db.relationship(
+      "ExercicioModel",
+      back_populates = "aparelho", uselist=False
+    )
     
     
     @classmethod

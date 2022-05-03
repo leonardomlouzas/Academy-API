@@ -29,6 +29,8 @@ class PersonalModel(db.Model):
     senha_hash= Column (String, nullable=False)
     
     alunos = relationship("AlunoModel", backref=backref("personal", uselist=False), uselist=True)
+
+    personal = db.relationship("TreinoModel", backref="personal")
     
     @property
     def password(self):

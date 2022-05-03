@@ -4,3 +4,4 @@ from .exercicio_model import ExercicioModel
 from .personal_model import PersonalModel
 from .treino_exercicio_table import treino_exercicio
 from .treino_model import TreinoModel
+from .execucao_model import ExecucaoModel
