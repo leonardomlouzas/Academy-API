@@ -18,10 +18,10 @@ Corpo da requisição:
 
 ```json
 {
-  "nome": "José Alves", //Obrigatório
-  "email": "jose@alves.com", //Obrigatório
-  "cpf": "333.333.333-33", //Obrigatório
-  "senha": "Aa*123" //Obrigatório
+  "nome": "Augusto Pereira",
+  "email": "Augusto@email.com",
+  "cpf": "333.333.333-33",
+  "senha": "*aA123456"
 }
 ```
 
@@ -29,9 +29,9 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
-  "id": 1,
-  "nome": "José Alves",
-  "email": "jose@alves.com",
+  "id": 2,
+  "nome": "Augusto Pereira",
+  "email": "Augusto@email.com",
   "cpf": "333.333.333-33",
   "alunos": []
 }
@@ -56,7 +56,14 @@ Corpo da resposta `200 OK`:
     {
       "id": 1,
       "nome": "José Alves",
-      "email": "jose@alves.com",
+      "email": "jose1@email.com",
+      "cpf": "333.333.333-32",
+      "alunos": []
+    },
+    {
+      "id": 2,
+      "nome": "Augusto Pereira",
+      "email": "Augusto@email.com",
       "cpf": "333.333.333-33",
       "alunos": []
     }
@@ -67,8 +74,8 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>GET <code>/personal/:id</code></summary>
-<p>Retorna as informações do personal indicado na url</p>
+  <summary>GET <code>/personal/profile</code></summary>
+<p>Retorna as informações do personal indicado no token.</p>
 Corpo da requisição:
 
 ```
@@ -79,10 +86,10 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
-  "id": 1,
-  "nome": "José Alves",
-  "email": "jose1@email.com",
-  "cpf": "333.333.333-32",
+  "id": 2,
+  "nome": "Augusto Pereira",
+  "email": "Augusto@email.com",
+  "cpf": "333.333.333-33",
   "alunos": []
 }
 ```
@@ -96,7 +103,7 @@ Corpo da requisição:
 
 ```json
 {
-  "email": "jose@alves.com", //Obrigatório
+  "email": "jose1@email.com", //Obrigatório
   "senha": "Aa*123" //Obrigatório
 }
 ```
@@ -118,7 +125,7 @@ Corpo da requisição:
 
 ```json
 {
-  "nome": "josé Alvez"
+  "nome": "Augusto Pereira Silva"
 }
 ```
 
@@ -126,9 +133,9 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
-  "id": 1,
-  "nome": "José Alvez",
-  "email": "jose@alves.com",
+  "id": 2,
+  "nome": "Augusto Pereira Silva",
+  "email": "Augusto@email.com",
   "cpf": "333.333.333-33",
   "alunos": []
 }
@@ -138,7 +145,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>DELETE <code>/personal</code></summary>
-<p>Realiza o login de um personal já cadastrado no banco de dados.</p>
+<p>Exclui um personal do banco de dados.</p>
 Corpo da requisição:
 
 ```json
