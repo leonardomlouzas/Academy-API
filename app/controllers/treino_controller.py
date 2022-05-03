@@ -62,7 +62,21 @@ def create():
 def update(treino_id):
     data = request.get_json()
     try:
-        return jsonify(TreinoModel.update_training(treino_id, data)), HTTPStatus.OK
+        training = TreinoModel.update_training(treino_id, data)
+        response = {
+            "id": training.id,
+            "nome": training.nome,
+            "dia": training.dia,
+            "personal": {
+                "id": training.personal.id,
+                "nome": training.personal.nome,
+                "email": training.personal.email,
+                "cpf": training.personal.cpf
+                },
+            "aluno": training.aluno,
+            "exercicios": training.exercicios,
+        }
+        return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 

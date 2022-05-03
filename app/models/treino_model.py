@@ -78,20 +78,22 @@ class TreinoModel(db.Model):
     @classmethod
     def update_training(cls, treino_id, payload):
       training = cls.select_by_id(treino_id)
+      
       #Update Exercises
       if 'exercicios' in payload.keys():
         training.exercicios.clear()
-        for exercicio in payload('exercicios'):
+        for exercicio in payload['exercicios']:
           ex = ExercicioModel.query.filter_by(nome=exercicio).first_or_404()
           training.exercicios.append(ex)
+        payload.pop('exercicios')
+      #Update others keys
+      if payload: 
+        cls.validates_fields(payload)
 
+        for key, value in payload.items():
+          setattr(training, key, value)
 
-      cls.validates_fields(payload)
-
-      for key, value in payload.items():
-        setattr(training, key, value)
-
-      cls.add_training(training)
+        cls.add_training(training)
 
       return training
 
