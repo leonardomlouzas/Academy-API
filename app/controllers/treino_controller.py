@@ -39,7 +39,7 @@ def update(training_id):
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
 
-def get():
+def access():
     session: Session = db.treino()
     training = session.query(TreinoModel).all()
     return training, HTTPStatus.OK

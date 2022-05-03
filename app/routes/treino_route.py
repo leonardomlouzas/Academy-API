@@ -1,11 +1,11 @@
 from flask import Blueprint
 
-from app.controllers import training_controller
+from app.controllers import treino_controller
 
 bp = Blueprint("training", __name__, url_prefix="/training")
 
-bp.post("")(training_controller.create)
-bp.patch("/<training_id>")(training_controller.update)
-bp.delete("/<training_id>")(training_controller.delete)
-bp.get("/<training_id>")(training_controller.access_by_id)
-bp.get("")(training_controller.access)
+bp.post("")(treino_controller.create)
+bp.patch("/<training_id>")(treino_controller.update)
+bp.delete("/<training_id>")(treino_controller.delete)
+bp.get("/<training_id>")(treino_controller.access_by_id)
+bp.get("")(treino_controller.access)
