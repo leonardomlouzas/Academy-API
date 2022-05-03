@@ -2,8 +2,12 @@ from dataclasses import dataclass
 from sqlalchemy import Column, Integer, String, Enum
 from sqlalchemy.orm import validates
 from app.configs.database import db
+from sqlalchemy.orm import validates
+from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_error_exc import TypeNotAccepted
+from sqlalchemy.orm.session import Session
 import enum
+
 
 class EnumTreinoName(str, enum.Enum):
 
@@ -13,6 +17,7 @@ class EnumTreinoName(str, enum.Enum):
     D = "D"
     E = "E"
     F = "F"
+
 
 @dataclass
 class TreinoModel(db.Model):
@@ -27,12 +32,12 @@ class TreinoModel(db.Model):
     dia = Column(String, nullable=False)
 
     personal_id = db.Column(
-      db.Integer, 
+      db.Integer,
       db.ForeignKey('personal.id')
     )
 
     aluno_id = db.Column(
-      db.Integer, 
+      db.Integer,
       db.ForeignKey('aluno.id')
     )
 
@@ -40,3 +45,50 @@ class TreinoModel(db.Model):
     def validate(self, key, value):
       if type(value) != str:
         raise TypeNotAccepted("As chaves passadas devem ser strings")
+
+
+    @classmethod
+    def validates_fields(cls, payload):
+      for key, value in payload.items():
+        if key == 'nome' and type(value) != str:
+          raise TypeError
+        
+
+    @classmethod
+    def add_training(cls, payload):
+      session: Session = db.treino()
+      session.add(payload)
+      session.commit()
+
+
+    @classmethod
+    def select_by_id(cls, treino_id):
+      session: Session = db.treino()
+      training = session.query(cls).get(treino_id)
+
+      if not training:
+        raise IDNotExistent
+
+      return training
+
+
+    @classmethod
+    def update_training(cls, treino_id, payload):
+      training = cls.select_by_id(treino_id)
+
+      cls.validates_fields(payload)
+
+      for key, value in payload.items():
+        setattr(training, key, value)
+
+      cls.add_treino(training)
+
+      return training
+
+
+    @classmethod
+    def delete_training(cls, training_id):
+      training = cls.select_by_id(training_id)
+      session: Session = db.treino()
+      session.delete(training)
+      session.commit()

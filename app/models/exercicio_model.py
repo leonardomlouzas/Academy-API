@@ -8,14 +8,13 @@ from .treino_exercicio_table import treino_exercicio
 from sqlalchemy.orm.session import Session
 
 
-
 @dataclass
 class ExercicioModel(db.Model):
     id: int
     nome: str
     estimulo: str
 
-    __tablename__='exercicio'
+    __tablename__ = 'exercicio'
 
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
@@ -67,7 +66,7 @@ class ExercicioModel(db.Model):
 
       for key,value in payload.items():
         setattr(exercise, key, value)
-      
+
       cls.add_session(exercise)
 
       return exercise
