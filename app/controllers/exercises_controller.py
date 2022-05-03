@@ -2,6 +2,8 @@ from http import HTTPStatus
 from app.configs.database import db
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_key_error_exc import TypeKeyError
+from app.models.equipment_model import EquipmentModel
+from app.models.execucao_model import ExecucaoModel
 from app.models.exercicio_model import ExercicioModel
 from flask import jsonify, request, session
 from psycopg2.errors import UniqueViolation
@@ -11,13 +13,26 @@ from flask_jwt_extended import jwt_required
 
 @jwt_required()
 def create_exercise():
-    data = request.get_json
+    session: Session = db.session()
+    data = request.get_json()
 
     try:
         ExercicioModel.validates_fields(data)
+        
+        new_execucao = {
+            'series': data.pop('series'), 
+            'repeticoes': data.pop('repeticoes'),
+            'carga': data.pop('carga')  
+        }
+        get_aparelho = data.pop('aparelho')
+        data['aparelho_id'] = EquipmentModel.query.filter_by(nome=get_aparelho).first_or_404().id
         exercise = ExercicioModel(**data)
-
         ExercicioModel.add_session(exercise)
+
+        new_execucao['exercicio_id'] = exercise.id
+        post_execucao = ExecucaoModel(**new_execucao)
+        ExercicioModel.add_session(post_execucao)
+
 
         return jsonify(exercise), HTTPStatus.CREATED
     except IntegrityError as error:
@@ -36,7 +51,7 @@ def update(exercise_id):
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
-@jwt_required()
+#@jwt_required()
 def delete(exercise_id):
     try:
         ExercicioModel.delete_exercise(exercise_id)
@@ -47,7 +62,7 @@ def delete(exercise_id):
 def acess():
     session: Session = db.session()
     exercises = session.query(ExercicioModel).all()
-    return exercises, HTTPStatus.OK
+    return jsonify(exercises), HTTPStatus.OK
 
 def acess_by_id(exercise_id):
     try:

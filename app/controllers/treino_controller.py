@@ -13,7 +13,7 @@ from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required
 
 
-jwt_required()
+@jwt_required()
 def create():
     data = request.get_json()
 
@@ -29,12 +29,24 @@ def create():
         training = TreinoModel(**data)
 
         for exercicio in get_exercicios:
-            ex = ExercicioModel.query.filter_by(nome=exercicio).firt_or_404()
+            ex = ExercicioModel.query.filter_by(nome=exercicio).first_or_404()
             training.exercicios.append(ex)
+        response = {
+            "id": training.id,
+            "nome": training.nome,
+            "dia": training.dia,
+            "personal": {
+                "id": training.personal.id,
+                "nome": training.personal.nome,
+                "email": training.personal.email,
+                "cpf": training.personal.cpf
+                },
+            "aluno": training.aluno,
+            "exercicios": training.exercicios,
+        }
+        TreinoModel.add_training(training)
 
-        TrainingModel.add_training(training)
-
-        return jsonify(training), HTTPStatus.CREATED
+        return jsonify(response), HTTPStatus.CREATED
     except IntegrityError as error:
         if type(error.orig) == UniqueViolation:
             return {'msg': 'treino já existente'}, HTTPStatus.CONFLICT
@@ -46,11 +58,11 @@ def create():
 
 
 
-@jwt_required()
-def update(training_id):
+#@jwt_required()
+def update(treino_id):
     data = request.get_json()
     try:
-        return jsonify(TreinoModel.update_training(training_id, data)), HTTPStatus.OK
+        return jsonify(TreinoModel.update_training(treino_id, data)), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 

@@ -5,7 +5,7 @@ from sqlalchemy.orm import validates
 from app.exception.type_error_exc import TypeNotAccepted
 
 @dataclass
-class ExercicioModel(db.Model):
+class ExecucaoModel(db.Model):
     id: int
     series: int
     repeticoes: int
@@ -27,7 +27,7 @@ class ExercicioModel(db.Model):
 
     exercicio = db.relationship(
       "ExercicioModel",
-      backref=db.backref("execucao", uselist=False)
+      back_populates = "execucao", uselist=False
     )
 
     @validates("series", "repeticoes", "carga")
@@ -36,3 +36,4 @@ class ExercicioModel(db.Model):
         raise TypeNotAccepted("Carga deve ser string")
       if type(value) != int and key in ["series", "repeticoes"]:
         raise TypeNotAccepted("Series e repeticoes devem ser inteiros")
+      return value
