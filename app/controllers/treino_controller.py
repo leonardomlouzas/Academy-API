@@ -84,12 +84,35 @@ def update(treino_id):
 def access():
     session: Session = db.session()
     training = session.query(TreinoModel).all()
-    return jsonify(training), HTTPStatus.OK
+    response = {
+        "id": training.id,
+        "nome": training.nome,
+        "personal": {
+            "nome": training.personal.nome,
+            "email": training.personal.email,
+            "CPF": training.personal.CPF
+        },
+        "aluno": training.aluno,
+        "exercicios": training.exercicios
+    }
+    return jsonify(response), HTTPStatus.OK
 
 
 def access_by_id(treino_id):
     try:
-        return jsonify(TreinoModel.select_by_id(treino_id)), HTTPStatus.OK
+        training = TreinoModel.select_by_id(treino_id)
+        response = {
+            "id": training.id,
+            "nome": training.nome,
+            "personal": {
+                "nome": training.personal.nome,
+                "email": training.personal.email,
+                "CPF": training.personal.CPF
+            },
+            "aluno": training.aluno,
+            "exercicios": training.exercicios
+        }
+        return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
