@@ -46,7 +46,7 @@ def signin():
     if not personal or not personal.check_password(data['senha']):
         return {'msg': "email ou senha incorretos"}, HTTPStatus.NOT_FOUND
         
-    return {"token": create_access_token(personal)}, HTTPStatus.OK
+    return {"token": create_access_token(personal), "user": personal}, HTTPStatus.OK
 
 @jwt_required()
 def update_personal():
