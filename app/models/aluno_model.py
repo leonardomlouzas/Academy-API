@@ -3,6 +3,9 @@ from sqlalchemy import Column, Integer, String
 from app.configs.database import db
 from sqlalchemy.orm import validates
 from app.exception.type_error_exc import TypeNotAccepted
+from sqlalchemy.orm.session import Session
+from app.exception.id_not_existent_exc import IDNotExistent
+
 
 @dataclass
 class AlunoModel(db.Model):
@@ -22,7 +25,7 @@ class AlunoModel(db.Model):
     email = Column(String, nullable=False, unique=True)
     peso = Column(Integer)
     altura = Column(Integer)
-    imc = Column(Integer)
+    imc = Column(Integer, default= 23)
     
     personal_id = db.Column(
       db.Integer, 
@@ -32,7 +35,7 @@ class AlunoModel(db.Model):
     treinos = db.relationship("TreinoModel", backref="aluno",uselist=True)
 
     @validates("nome", "telefone", "email", "peso", "altura")
-    def valdate(self, key, value):
+    def validate(self, key, value):
       
       if type(value) != str and key in ["nome", "telefone", "email"]:
         raise TypeNotAccepted("Nome, telefone e email devem ser strings")
@@ -40,3 +43,52 @@ class AlunoModel(db.Model):
         raise TypeNotAccepted("Peso deve ser inteiro")
       if type(value) != float and key in ['altura', 'imc']:
         raise TypeNotAccepted("Altura e imc devem ser float")
+      return value
+      
+    
+    @classmethod
+    def add_session(cls, payload):
+        session: Session = db.session()
+        session.add(payload)
+        session.commit()
+      
+    @classmethod
+    def select_by_id(cls, aluno_id):
+        session: Session = db.session()
+        aluno = session.query(cls).get(aluno_id)
+
+        if not aluno:
+            raise IDNotExistent
+
+        return aluno
+    
+    @classmethod
+    def update_aluno(cls, aluno_id, payload):
+        aluno = cls.select_by_id(aluno_id)       
+        
+        
+        for key, value in payload.items():
+            setattr(aluno, key, value)
+
+        cls.add_session(aluno)
+        
+        return aluno
+    
+    @classmethod
+    def select_by_id(cls, aluno_id):
+        session: Session = db.session()
+        aluno = session.query(cls).get(aluno_id)
+
+        if not aluno:
+            raise IDNotExistent
+
+        return aluno      
+    
+    @classmethod
+    def delete_aluno(cls, aluno_id):
+        aluno = cls.select_by_id(aluno_id)
+        session: Session = db.session()
+        session.delete(aluno)
+        session.commit()
+    
+    
