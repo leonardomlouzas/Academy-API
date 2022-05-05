@@ -28,7 +28,7 @@ class PersonalModel(db.Model):
     cpf = Column(String, nullable=False, unique=True)
     senha_hash= Column (String, nullable=False)
     
-    alunos = relationship("AlunoModel", backref=backref("personal", uselist=False), uselist=True)
+    alunos = relationship("AlunoModel", backref=backref("personal", uselist=True), uselist=True)
 
     personal = db.relationship("TreinoModel", backref="personal")
     
