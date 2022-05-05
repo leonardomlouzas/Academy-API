@@ -1,3 +1,4 @@
+from datetime import timedelta
 from http import HTTPStatus
 
 from flask import jsonify, request
@@ -46,7 +47,7 @@ def signin():
     if not personal or not personal.check_password(data['senha']):
         return {'msg': "email ou senha incorretos"}, HTTPStatus.NOT_FOUND
         
-    return {"token": create_access_token(personal), "user": personal}, HTTPStatus.OK
+    return {"token": create_access_token(personal, expires_delta=timedelta(hours=1)), "user": personal}, HTTPStatus.OK
 
 @jwt_required()
 def update_personal():
