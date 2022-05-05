@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 from app.configs.database import db
 from sqlalchemy.orm import validates
 from app.exception.type_error_exc import TypeNotAccepted
@@ -25,7 +25,7 @@ class AlunoModel(db.Model):
     email = Column(String, nullable=False, unique=True)
     peso = Column(Integer)
     altura = Column(Integer)
-    imc = Column(Integer, default= 23)
+    imc = Column(Float)
     
     personal_id = db.Column(
       db.Integer, 
