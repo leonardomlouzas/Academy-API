@@ -58,7 +58,7 @@ def create():
 
 
 
-#@jwt_required()
+@jwt_required()
 def update(treino_id):
     data = request.get_json()
     try:
@@ -83,13 +83,43 @@ def update(treino_id):
 
 def access():
     session: Session = db.session()
+    treinos = []
     training = session.query(TreinoModel).all()
-    return jsonify(training), HTTPStatus.OK
+    for treino in training:
+        treinos.append({
+            "id": treino.id,
+            "nome": treino.nome,
+            "dia": treino.dia,
+            "personal": {
+                "id": treino.personal.id,
+                "nome": treino.personal.nome,
+                "email": treino.personal.email,
+                "cpf": treino.personal.cpf
+                },
+            "aluno": treino.aluno,
+            "exercicios": treino.exercicios,
+        })
+        print(treinos)
+    return jsonify(treinos), HTTPStatus.OK
 
 
 def access_by_id(treino_id):
     try:
-        return jsonify(TreinoModel.select_by_id(treino_id)), HTTPStatus.OK
+        treino = TreinoModel.select_by_id(treino_id)
+        response = {
+            "id": treino.id,
+            "nome": treino.nome,
+            "dia": treino.dia,
+            "personal": {
+                "id": treino.personal.id,
+                "nome": treino.personal.nome,
+                "email": treino.personal.email,
+                "cpf": treino.personal.cpf
+                },
+            "aluno": treino.aluno,
+            "exercicios": treino.exercicios,
+        }
+        return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
