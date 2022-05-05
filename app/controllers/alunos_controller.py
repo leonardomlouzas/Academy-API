@@ -1,70 +1,46 @@
 from http import HTTPStatus
+from app.exception.type_error_exc import TypeNotAccepted
 from app.models.aluno_model import AlunoModel
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 from flask import jsonify, request
 from app.configs.database import db
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.key_not_found import KeyNotFound
 from sqlalchemy.exc import IntegrityError
+from psycopg2.errors import UniqueViolation
 from sqlalchemy.orm.session import Session
 from app.models.aluno_model import AlunoModel
 
 @jwt_required()
 def create_aluno():
-
         try:    
             data = request.get_json()
-            token_id = get_jwt_identity()
-            # print(token_id)
-
-            imc_response = (data['peso']/(data['altura'] * data['altura']))
-            imc_formatted = ("%.2f" % round(imc_response, 2))
-
-            data['personal_id'] = token_id['id']
-            data['imc'] = imc_formatted
-            #print(type(data['imc']))
-
-            print(f'{data=}')
+            data = AlunoModel.caculation_of_imc_and_personal_id(data)
 
             aluno = AlunoModel(**data)
-           
-
-            
-            print(aluno)            
-
-            response = {
-                    "nome": aluno.nome,
-                    "telefone": aluno.telefone,
-                    "email":aluno.email,
-                    "peso": aluno.peso,
-                    "altura":aluno.altura,
-                    "imc": imc_formatted, 
-                    # "personal":{
-                    #     "id": aluno.personal.id, 
-                    #     "nome": aluno.personal.nome,
-                    #     "cpf": aluno.personal.cpf,
-                    # }                  
-                }
 
             AlunoModel.add_session(aluno) 
-            print(aluno)   
             
-            return jsonify(aluno), HTTPStatus.CREATED
-        except IntegrityError:
-            return {'msg': 'Email ou telefone já existe'} 
+            response = AlunoModel.response(aluno)
+            
+            return jsonify(response), HTTPStatus.CREATED
+        except IntegrityError as e:
+            if type(e.orig) == UniqueViolation:
+                return {'msg': 'Email já existe'}, HTTPStatus.CONFLICT 
+        except TypeNotAccepted as e:
+            return {'msg': str(e)}, HTTPStatus.BAD_REQUEST
+        except KeyError as e:
+            return {'msg': str(e)}, HTTPStatus.BAD_REQUEST
+
+            
 
 @jwt_required()
 def update_by_id(aluno_id):
     data = request.get_json()
-    oficial_keys = ["nome", "telefone", "email", "peso", "altura"]
     try:
-        for dkey in data.keys():
-            if dkey not in oficial_keys:
-                raise KeyNotFound
         return jsonify(AlunoModel.update_aluno(aluno_id, data)), HTTPStatus.OK
     except KeyNotFound:
-        return {'msg': 'Chave não encontrada'}, HTTPStatus.NOT_FOUND
-        
+        return {'msg': 'Chave não encontrada'}, HTTPStatus.NOT_FOUND 
     except IDNotExistent: 
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
@@ -80,6 +56,7 @@ def retrieve_by_id(aluno_id):
           return jsonify(AlunoModel.select_by_id(aluno_id)), HTTPStatus.OK
       except IDNotExistent: 
           return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
+      
 @jwt_required()
 def delete_by_id(aluno_id):
     try:
