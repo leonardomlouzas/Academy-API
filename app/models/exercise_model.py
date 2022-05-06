@@ -1,16 +1,17 @@
 from dataclasses import dataclass
 
 from app.configs.database import db
+from app.exception.equipment_error_exc import EquipmentError
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.key_not_found import KeyNotFound
 from app.exception.type_error_exc import TypeNotAccepted
 from app.models.equipment_model import EquipmentModel
-from app.models.execucao_model import ExecucaoModel
+from app.models.execution_model import ExecucaoModel
 from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import validates, backref
+from sqlalchemy.orm import backref
 from sqlalchemy.orm.session import Session
 
-from .treino_exercicio_table import treino_exercicio
+from .training_exercise_table import treino_exercicio
 
 
 @dataclass
@@ -86,39 +87,45 @@ class ExercicioModel(db.Model):
         return exercise
 
     @classmethod
+    def select_equipment(cls, equipment_name):
+        equipment = EquipmentModel.query.filter_by(nome=equipment_name).first()
+        
+        if not equipment:
+            raise EquipmentError("Aparelho não encontrado")
+          
+        return equipment
+      
+
+    @classmethod
     def update_exercise(cls, exercise_id, payload):
         cls.validates_fields(payload, update=True)
 
-        update_execucao = cls.select_by_id(exercise_id).execucao
+        update_execution = cls.select_by_id(exercise_id).execucao
         for key in payload.keys():
-            if key in ["series", "repeticoes", "carga"]:
-                setattr(update_execucao, key, payload[key])
-        cls.add_session(update_execucao)
+            if key in ['series', 'repeticoes', 'carga']:
+                setattr(update_execution, key, payload[key])
+        cls.add_session(update_execution)
 
-        if "aparelho" in payload.keys():
-            aparelho_id = (
-                EquipmentModel.query.filter_by(nome=payload.pop("aparelho"))
-                .first_or_404()
-                .id
-            )
-            payload["aparelho_id"] = aparelho_id
+        if 'aparelho' in payload.keys():
+            equipment = cls.select_equipment(payload.pop('aparelho'))
+            payload['aparelho_id'] = equipment.id
 
         exercise = cls.select_by_id(exercise_id)
-
-        for key, value in payload.items():
+        for key,value in payload.items():
             setattr(exercise, key, value)
-
         cls.add_session(exercise)
+
 
         return exercise
 
     @classmethod
     def delete_exercise(cls, exercise_id):
-        session: Session = db.session()
-        execucao = cls.select_by_id(exercise_id).execucao
-        session.delete(execucao)
-        session.commit()
+      session: Session = db.session()
+      execution = cls.select_by_id(exercise_id).execucao
+      session.delete(execution)
+      session.commit()
 
-        exercise = cls.select_by_id(exercise_id)
-        session.delete(exercise)
-        session.commit()
+      exercise = cls.select_by_id(exercise_id)
+      session.delete(exercise)
+      session.commit()
+

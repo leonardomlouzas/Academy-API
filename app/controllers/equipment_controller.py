@@ -24,9 +24,9 @@ def create_equipment():
         return jsonify(equipment), HTTPStatus.CREATED
     except IntegrityError as e:
         if type(e.orig) == UniqueViolation:
-            return {'msg': 'nome já existente'}, HTTPStatus.CONFLICT
+            return {'msg': 'Nome ou código já existente'}, HTTPStatus.CONFLICT
     except TypeKeyError:
-        return {'msg': 'Tipos das chaves incorretos. Espera-se string para nome e integer para codigo'}, HTTPStatus.CONFLICT
+        return {'msg': 'Tipos das chaves incorretos. Espera-se string para nome e inteiro para codigo'}, HTTPStatus.CONFLICT
     except TypeError:
         return {'msg': 'Chaves nome e codigo são obrigatórias'}, HTTPStatus.CONFLICT    
     
@@ -38,6 +38,7 @@ def update(equipment_id):
     except IDNotExistent: 
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
+
 @jwt_required()
 def delete(equipment_id):
     try:
@@ -48,8 +49,8 @@ def delete(equipment_id):
     
 def retrieve():
     session: Session = db.session()
-    equipments = session.query(EquipmentModel).all()
-    return {'count': len(equipments),'equipments': equipments}, HTTPStatus.OK
+    equipment = session.query(EquipmentModel).all()
+    return {'countador': len(equipment),'equipmentos': equipment}, HTTPStatus.OK
 
 def retrieve_by_id(equipment_id): 
     try: 

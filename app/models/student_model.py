@@ -45,8 +45,8 @@ class AlunoModel(db.Model):
         return value
 
     @classmethod
-    def validate_peso_altura(cls, payload):
-        if type(payload["peso"]) != int:
+    def validate_weight_height(cls, payload):
+        if type(payload['peso']) != int:
             raise TypeNotAccepted("Peso deve ser um valor inteiro")
         if type(payload["altura"]) != float:
             raise TypeNotAccepted("Altura deve ser um valor float")
@@ -64,10 +64,9 @@ class AlunoModel(db.Model):
 
         if not update:
             if len(new_payload) != 5:
-                raise KeyError(
-                    "As chaves: nome, telefone, email, peso e altura são obrigatórias"
-                )
-            cls.validate_peso_altura(new_payload)
+                    raise KeyError("As chaves: nome, telefone, email, peso e altura são obrigatórias")
+            cls.validate_weight_height(new_payload)
+
             return new_payload
 
     @classmethod
@@ -77,79 +76,69 @@ class AlunoModel(db.Model):
         session.commit()
 
     @classmethod
-    def select_by_id(cls, aluno_id):
+    def select_by_id(cls, student_id):
         session: Session = db.session()
-        aluno = session.query(cls).get(aluno_id)
+        student = session.query(cls).get(student_id)
 
-        if not aluno:
+        if not student:
             raise IDNotExistent
 
-        return aluno
-
+        return student
+    
     @classmethod
-    def update_aluno(cls, aluno_id, payload):
-        aluno = cls.select_by_id(aluno_id)
-        cls.validate_keys(payload, update=True)
+    def update_student(cls, student_id, payload):
+        student = cls.select_by_id(student_id)
+        cls.validate_keys(payload, update=True)       
+        
 
         for key, value in payload.items():
-            setattr(aluno, key, value)
+            setattr(student, key, value)
 
-        cls.add_session(aluno)
-
-        return aluno
-
-    @classmethod
-    def select_by_id(cls, aluno_id):
-        session: Session = db.session()
-        aluno = session.query(cls).get(aluno_id)
-
-        if not aluno:
-            raise IDNotExistent
-
-        return aluno
+        cls.add_session(student)
+        
+        return student 
 
     @classmethod
-    def select_treino(cls, treinos):
-        response_treino = []
-        for treino in treinos:
+    def select_training(cls, workouts):
+        response_training = []
+        for training in workouts:
             response = {
-                "id": treino.id,
-                "nome": treino.nome,
-                "dia": treino.dia,
-                "exercicios": treino.exercicios,
+                "id": training.id,
+                "nome": training.nome,
+                "dia": training.dia,
+                "exercicios": training.exercicios,
             }
-            response_treino.append(response)
+            response_training.append(response)     
 
-        return sorted(
-            response_treino, key=lambda response_treino: response_treino["id"]
-        )
+        return sorted(response_training, key=lambda response_training: response_training['id']) 
+    
 
     @classmethod
-    def delete_aluno(cls, aluno_id):
-        aluno = cls.select_by_id(aluno_id)
+    def delete_student(cls, student_id):
+        student = cls.select_by_id(student_id)
         session: Session = db.session()
-        session.delete(aluno)
+        session.delete(student)
         session.commit()
 
     @classmethod
-    def response(cls, aluno):
-        session: Session = db.session()
-        personal = session.query(PersonalModel).get(aluno.personal_id)
-        treinos = cls.select_treino(aluno.treinos)
+    def response(cls, student):
+        session: Session = db.session()     
+        personal = session.query(PersonalModel).get(student.personal_id)
+        workouts = cls.select_training(student.treinos)
         response = {
-            "id": aluno.id,
-            "nome": aluno.nome,
-            "telefone": aluno.telefone,
-            "email": aluno.email,
-            "peso": aluno.peso,
-            "altura": aluno.altura,
-            "imc": aluno.imc,
-            "personal": {
-                "id": personal.id,
+            "nome": student.nome,
+            "telefone": student.telefone,
+            "email":student.email,
+            "peso": student.peso,
+            "altura":student.altura,
+            "imc": student.imc, 
+            "personal":{
+                "id": personal.id, 
                 "nome": personal.nome,
                 "cpf": personal.cpf,
             },
-            "treinos": treinos,
+            "treinos": workouts                
+
         }
 
         return response

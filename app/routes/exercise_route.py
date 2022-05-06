@@ -1,7 +1,7 @@
 from flask import Blueprint
 from app.controllers import exercises_controller
 
-bp = Blueprint("exercises", __name__, url_prefix="/exercicio")
+bp = Blueprint("exercise", __name__, url_prefix="/exercise")
 
 bp.post("")(exercises_controller.create_exercise)
 bp.patch("/<exercise_id>")(exercises_controller.update)

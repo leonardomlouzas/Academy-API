@@ -1,23 +1,18 @@
+import enum
 from dataclasses import dataclass
-import re
-from sqlalchemy import Column, Integer, String, Enum
-from sqlalchemy.orm import validates
+
 from app.configs.database import db
-from sqlalchemy.orm import validates
 from app.exception.exercise_error_exc import ExerciseError
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.key_not_found import KeyNotFound
 from app.exception.type_error_exc import TypeNotAccepted
-from sqlalchemy.orm.session import Session
-
-# from sqlalchemy.orm.collections import InstrumentedList
-from flask_jwt_extended import get_jwt_identity
-
-import enum
-from app.models.aluno_model import AlunoModel
-
-from app.models.exercicio_model import ExercicioModel
+from app.models.exercise_model import ExercicioModel
 from app.models.personal_model import PersonalModel
+from app.models.student_model import AlunoModel
+from flask_jwt_extended import get_jwt_identity
+from sqlalchemy import Column, Enum, Integer, String
+from sqlalchemy.orm import validates
+from sqlalchemy.orm.session import Session
 
 
 class EnumTreinoName(str, enum.Enum):
@@ -28,7 +23,6 @@ class EnumTreinoName(str, enum.Enum):
     D = "D"
     E = "E"
     F = "F"
-
 
 @dataclass
 class TreinoModel(db.Model):
@@ -55,7 +49,6 @@ class TreinoModel(db.Model):
     @classmethod
     def validates_keys(cls, payload):
         for key, value in payload.items():
-            print(f"{value=}", type(value))
             if type(value) != str and key == "email_aluno":
                 raise TypeNotAccepted(f"A chave email_aluno deve ser uma strings")
             elif type(value) != list and key == "exercicios":
@@ -92,16 +85,19 @@ class TreinoModel(db.Model):
     @classmethod
     def select_personal(cls):
         current_personal = get_jwt_identity()
-        return PersonalModel.query.filter_by(nome=current_personal["nome"]).first()
+        session: Session = db.session()
+        personal = session.query(PersonalModel).get(current_personal['id'])
+        return personal
 
     @classmethod
-    def select_student(cls, email_aluno):
-        aluno = AlunoModel.query.filter_by(email=email_aluno).first()
+    def select_student(cls, email_student):
+        student = AlunoModel.query.filter_by(email=email_student).first()
 
-        if not aluno:
+        if not student:
             raise IDNotExistent("Aluno não cadastrado")
-
-        return aluno
+          
+        return student
+    
 
     @classmethod
     def select_exercise(cls, exercises):
@@ -121,45 +117,44 @@ class TreinoModel(db.Model):
             raise IDNotExistent("Id não encontrado")
 
         return training
-
+    
     @classmethod
-    def response(cls, treino):
-        session: Session = db.session()
-        personal = session.query(PersonalModel).get(treino.personal_id)
-        aluno = session.query(AlunoModel).get(treino.aluno_id)
+    def response(cls, training):
+        session: Session = db.session()     
+        personal = session.query(PersonalModel).get(training.personal_id)
+        student = session.query(AlunoModel).get(training.aluno_id)
+
         response = {
-            "id": treino.id,
-            "nome": treino.nome,
-            "dia": treino.dia,
+            "id": training.id,
+            "nome": training.nome,
+            "dia": training.dia,
             "personal": {
                 "id": personal.id,
                 "nome": personal.nome,
                 "email": personal.email,
-                "cpf": personal.cpf,
-            },
-            "aluno": aluno,
-            "exercicios": treino.exercicios,
+                "cpf": personal.cpf
+                },
+            "aluno": student,
+            "exercicios": training.exercicios,
+
         }
         return response
 
     @classmethod
-    def update_training(cls, treino_id, payload):
-        training = cls.select_by_id(treino_id)
+    def update_training(cls, training_id, payload):
+        training = cls.select_by_id(training_id)
         cls.validates_fields(payload, update=True)
-
-        # Update Exercises
-        if "exercicios" in payload.keys():
+          
+        if 'exercicios' in payload.keys():
             training.exercicios.clear()
-            for exercicio in payload["exercicios"]:
-                ex = cls.select_exercise(exercicio)
+            for exercise in payload['exercicios']:
+                ex = cls.select_exercise(exercise)
                 training.exercicios.append(ex)
-            payload.pop("exercicios")
-        # Update others keys
-        if payload:
+            payload.pop('exercicios')
 
+        if payload: 
             for key, value in payload.items():
                 setattr(training, key, value)
-
             cls.add_training(training)
 
         return training
