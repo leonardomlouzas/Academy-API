@@ -13,7 +13,6 @@ def init_app(app: Flask):
     app.config["JWT_SECRET_KEY"] = getenv("SECRET_KEY")
     app.config["JSON_SORT_KEYS"] = False
 
-
     db.init_app(app)
     app.db = db
 

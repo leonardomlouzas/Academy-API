@@ -10,5 +10,3 @@ bp.patch("")(personal_controller.update_personal)
 bp.delete("")(personal_controller.delete_personal)
 bp.get("")(personal_controller.retrieve_personal)
 bp.get("/profile")(personal_controller.retrieve_personal_id)
-
-

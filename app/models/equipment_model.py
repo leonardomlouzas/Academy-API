@@ -14,30 +14,33 @@ class EquipmentModel(db.Model):
     nome: str
     codigo: int
 
-    __tablename__ = 'equipment'
+    __tablename__ = "equipment"
 
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False, unique=True)
     codigo = Column(Integer, nullable=False, unique=True)
 
     exercicio = db.relationship(
-      "ExercicioModel",
-      back_populates = "aparelho", uselist=False
+        "ExercicioModel", back_populates="aparelho", uselist=False
     )
-    
-    
+
     @classmethod
     def validates_fields(cls, payload):
         for key, value in payload.items():
-            if key == 'nome' and type(value) != str or key == 'codigo' and type(value) != int :
+            if (
+                key == "nome"
+                and type(value) != str
+                or key == "codigo"
+                and type(value) != int
+            ):
                 raise TypeKeyError
-        
+
     @classmethod
     def add_session(cls, payload):
         session: Session = db.session()
         session.add(payload)
         session.commit()
-        
+
     @classmethod
     def select_by_id(cls, equipment_id):
         session: Session = db.session()
@@ -47,20 +50,20 @@ class EquipmentModel(db.Model):
             raise IDNotExistent
 
         return equipment
-    
+
     @classmethod
     def update_equipment(cls, equipment_id, payload):
         equipment = cls.select_by_id(equipment_id)
-        
+
         cls.validates_fields(payload)
-        
+
         for key, value in payload.items():
             setattr(equipment, key, value)
 
         cls.add_session(equipment)
-        
+
         return equipment
-    
+
     @classmethod
     def delete_equipment(cls, equipment_id):
         equipment = cls.select_by_id(equipment_id)

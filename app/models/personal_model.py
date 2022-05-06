@@ -19,107 +19,102 @@ class PersonalModel(db.Model):
     email: str
     cpf: str
     alunos: list
-    
-    __tablename__ = 'personal'
-    
+
+    __tablename__ = "personal"
+
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
     cpf = Column(String, nullable=False, unique=True)
-    senha_hash= Column (String, nullable=False)
-    
-    alunos = relationship("AlunoModel", backref=backref("personal", uselist=True), uselist=True)
+    senha_hash = Column(String, nullable=False)
+
+    alunos = relationship(
+        "AlunoModel", backref=backref("personal", uselist=True), uselist=True
+    )
 
     personal = db.relationship("TreinoModel", backref="personal")
-    
+
     @property
     def password(self):
         raise AttributeError("Password cannot be accessed!")
-    
+
     @password.setter
     def password(self, password_to_hash):
         self.senha_hash = generate_password_hash(password_to_hash)
-        
+
     def check_password(self, password_to_compare):
         return check_password_hash(self.senha_hash, password_to_compare)
-    
+
     @validates("cpf")
     def validate_fields(self, key, value):
-        if key == 'cpf':
+        if key == "cpf":
             pattern = "\d{3}\.\d{3}\.\d{3}\-\d{2}"
             response = re.fullmatch(pattern, value)
             if not response:
                 raise CPFError
             return value
-    
+
     def verify_password(payload):
-        pattern = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}'
+        pattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}"
         response = re.fullmatch(pattern, payload["senha"])
         if not response:
             raise PasswordError
-    
-               
+
     @classmethod
     def add_personal(cls, payload: dict):
         session: Session = db.session()
         session.add(payload)
         session.commit()
-        
+
     @classmethod
     def read_personal(cls):
         session: Session = db.session()
         return session.query(cls).all()
-        
+
     @classmethod
     def select_by_id(cls, id):
         session: Session = db.session()
         personal = session.query(cls).get(id)
-        
+
         if not personal:
             raise IDNotExistent
-        
+
         return personal
-    
+
     @classmethod
     def validate_keys(cls, payload: dict, update=False):
-        expect_keys = {'nome', 'email', 'cpf', 'senha'}
+        expect_keys = {"nome", "email", "cpf", "senha"}
         new_payload = {}
-        
+
         for key, value in payload.items():
             if not key in expect_keys and update:
                 raise KeyError
             elif key in expect_keys:
-                new_payload[key] = value    
+                new_payload[key] = value
 
         if not update:
             if len(new_payload) != 4:
-                    raise KeyError
+                raise KeyError
             cls.verify_password(payload=new_payload)
             return new_payload
-                
-    
+
     @classmethod
     def update_personal(cls, personal_id, payload):
         cls.validate_keys(payload, update=True)
-        
-        personal = cls.select_by_id(personal_id) 
-             
+
+        personal = cls.select_by_id(personal_id)
+
         for key, value in payload.items():
             setattr(personal, key, value)
-        
+
         cls.add_personal(personal)
-        
-        return personal               
-        
-    
+
+        return personal
+
     @classmethod
     def delete(cls, personal_id: int):
         personal = cls.select_by_id(personal_id)
-        
+
         session: Session = db.session()
         session.delete(personal)
         session.commit()
-        
-        
-        
-        
