@@ -163,7 +163,7 @@ Não há corpo
 - ### **Alunos**
 
 <details>
-  <summary>POST <code>/aluno</code></summary>
+  <summary>POST <code>/students</code></summary>
 <p>Cadastra um novo aluno no banco de dados.</p>
 Corpo da requisição:
 
@@ -199,7 +199,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>GET <code>/aluno</code></summary>
+  <summary>GET <code>/students</code></summary>
 <p>Retorna uma lista contendo todos os alunos cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -272,7 +272,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>GET <code>/aluno/:id</code></summary>
+  <summary>GET <code>/students/:id</code></summary>
 <p>Retorna as informações do aluno indicado na url.</p>
 Corpo da requisição:
 
@@ -341,7 +341,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>PATCH <code>/aluno</code></summary>
+  <summary>PATCH <code>/students</code></summary>
 <p>Atualiza as informações de um aluno no banco de dados.</p>
 Corpo da requisição:
 
@@ -367,7 +367,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>DELETE <code>/aluno/:id</code></summary>
+  <summary>DELETE <code>/students/:id</code></summary>
 <p>Deleta um aluno do banco de dados.</p>
 Corpo da requisição:
 
@@ -386,7 +386,7 @@ Não há corpo
 - ### **Exercícios**
 
 <details>
-  <summary>POST <code>/exercicios</code></summary>
+  <summary>POST <code>/exercise</code></summary>
 <p>Cadastra um novo exercício no banco de dados.</p>
 Corpo da requisição:
 
@@ -424,7 +424,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>GET <code>/exercicios</code></summary>
+  <summary>GET <code>/exercise</code></summary>
 <p>Retorna uma lista contendo todos os exercícios cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -458,7 +458,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>GET <code>/exercicios/:id</code></summary>
+  <summary>GET <code>/exercise/:id</code></summary>
 <p>Retorna as informações do exercício indicado na url.</p>
 Corpo da requisição:
 
@@ -488,7 +488,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>PATCH <code>/exercicios/:id</code></summary>
+  <summary>PATCH <code>/exercise/:id</code></summary>
 <p>Atualiza as informações de um exercício no banco de dados.</p>
 Corpo da requisição:
 
@@ -520,7 +520,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>DELETE <code>/exercicios/:id</code></summary>
+  <summary>DELETE <code>/exercise/:id</code></summary>
 <p>Deleta um exercício do banco de dados.</p>
 Corpo da requisição:
 
@@ -539,7 +539,7 @@ Não há corpo
 - ### **Treinos**
 
 <details>
-  <summary>POST <code>/treinos</code></summary>
+  <summary>POST <code>/training</code></summary>
 <p>Cadastra um novo treino no banco de dados.</p>
 Corpo da requisição:
 
@@ -611,7 +611,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>GET <code>/treinos</code></summary>
+  <summary>GET <code>/training</code></summary>
 <p>Retorna uma lista contendo todos os treinos cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -680,7 +680,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>GET <code>/treinos/:id</code></summary>
+  <summary>GET <code>/training/:id</code></summary>
 <p>Retorna as informações do treino indicado na url.</p>
 Corpo da requisição:
 
@@ -745,7 +745,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>PATCH <code>/treinos/:id</code></summary>
+  <summary>PATCH <code>/training/:id</code></summary>
 <p>Atualiza as informações de um treino no banco de dados.</p>
 Corpo da requisição:
 
@@ -806,7 +806,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>DELETE <code>/treinos/:id</code></summary>
+  <summary>DELETE <code>/training/:id</code></summary>
 <p>Deleta um treino do banco de dados.</p>
 Corpo da requisição:
 
@@ -825,7 +825,7 @@ Não há corpo
 - ### **Equipamentos**
 
 <details>
-  <summary>POST <code>/equipamentos</code></summary>
+  <summary>POST <code>/equipment</code></summary>
 <p>Cadastra um novo equipamento no banco de dados.</p>
 Corpo da requisição:
 
@@ -849,7 +849,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>GET <code>/equipamentos</code></summary>
+  <summary>GET <code>/equipment</code></summary>
 <p>Retorna uma lista contendo todos os equipamentos cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -874,7 +874,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>GET <code>/equipamentos/:id</code></summary>
+  <summary>GET <code>/equipment/:id</code></summary>
 <p>Retorna as informações do equipamento indicado na url.</p>
 Corpo da requisição:
 
@@ -895,7 +895,7 @@ Corpo da resposta `200 OK`:
 </details>
 
 <details>
-  <summary>PATCH <code>/equipamentos/:id</code></summary>
+  <summary>PATCH <code>/equipment/:id</code></summary>
 <p>Atualiza as informações de um equipamento no banco de dados.</p>
 Corpo da requisição:
 
@@ -918,7 +918,7 @@ Corpo da resposta `201 CREATED`:
 </details>
 
 <details>
-  <summary>DELETE <code>/equipamentos/:id</code></summary>
+  <summary>DELETE <code>/equipment/:id</code></summary>
 <p>Deleta um equipamento do banco de dados.</p>
 Corpo da requisição:
 

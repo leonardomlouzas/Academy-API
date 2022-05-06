@@ -3,7 +3,7 @@ from app.configs.database import db
 from app.exception.exercise_error_exc import ExerciseError
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_error_exc import TypeNotAccepted
-from app.models.treino_model import TreinoModel
+from app.models.training_model import TreinoModel
 from flask import jsonify, request
 from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required
@@ -15,16 +15,16 @@ def create():
     try:
         TreinoModel.validates_fields(data)
 
-        get_aluno = data.pop('email_aluno')
-        get_exercicios = data.pop('exercicios')        
+        get_student = data.pop('email_aluno')
+        get_exercises = data.pop('exercicios')        
         
         data['personal_id'] = TreinoModel.select_personal().id
-        data['aluno_id'] = TreinoModel.select_student(get_aluno).id
+        data['aluno_id'] = TreinoModel.select_student(get_student).id
 
         training = TreinoModel(**data)
         
-        for exercicio in get_exercicios:
-            ex = TreinoModel.select_exercise(exercicio)
+        for exercise in get_exercises:
+            ex = TreinoModel.select_exercise(exercise)
             training.exercicios.append(ex)
         
         TreinoModel.add_training(training)
@@ -42,10 +42,10 @@ def create():
         return {'msg': 'Chaves nome, email_aluno, dia e exercícios são obrigatórias'}, HTTPStatus.NOT_FOUND
 
 @jwt_required()
-def update(treino_id):
+def update(training_id):
     data = request.get_json()
     try:
-        training = TreinoModel.update_training(treino_id, data)
+        training = TreinoModel.update_training(training_id, data)
         response = TreinoModel.response(training)
         return jsonify(response), HTTPStatus.OK
     except IDNotExistent as e:
@@ -58,24 +58,24 @@ def update(treino_id):
 
 def access():
     session: Session = db.session()
-    treinos = []
-    training = session.query(TreinoModel).all()
-    for treino in training:
-        treinos.append(TreinoModel.response(treino))
-    return {"treinos": treinos}, HTTPStatus.OK
+    workouts = []
+    workouts_select = session.query(TreinoModel).all()
+    for training in workouts_select:
+        workouts.append(TreinoModel.response(training))
+    return {"treinos": workouts}, HTTPStatus.OK
 
-def access_by_id(treino_id):
+def access_by_id(training_id):
     try:
-        training = TreinoModel.select_by_id(treino_id)
+        training = TreinoModel.select_by_id(training_id)
         response = TreinoModel.response(training)
         return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
 
 @jwt_required()
-def delete(treino_id):
+def delete(training_id):
     try:
-        TreinoModel.delete_training(treino_id)
+        TreinoModel.delete_training(training_id)
         return "", HTTPStatus.NO_CONTENT
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
