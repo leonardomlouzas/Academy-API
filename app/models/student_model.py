@@ -39,17 +39,17 @@ class AlunoModel(db.Model):
     @validates("nome", "telefone", "email", "peso", "altura")
     def validate(self, key, value):
         if type(value) != str and key in ["nome", "telefone", "email"]:
-            raise TypeNotAccepted("Nome, telefone e email devem ser strings")
+            raise TypeNotAccepted("Nome, telefone e email devem ser do tipo string")
         if type(value) != float and key == "imc":
-            raise TypeNotAccepted("Altura e imc devem ser float")
+            raise TypeNotAccepted("Altura e imc devem ser do tipo float")
         return value
 
     @classmethod
     def validate_weight_height(cls, payload):
-        if type(payload['peso']) != int:
-            raise TypeNotAccepted("Peso deve ser um valor inteiro")
+        if type(payload["peso"]) != int:
+            raise TypeNotAccepted("Peso deve ser um valor do tipo inteiro")
         if type(payload["altura"]) != float:
-            raise TypeNotAccepted("Altura deve ser um valor float")
+            raise TypeNotAccepted("Altura deve ser um valor do tipo float")
 
     @classmethod
     def validate_keys(cls, payload: dict, update=False):
@@ -64,7 +64,9 @@ class AlunoModel(db.Model):
 
         if not update:
             if len(new_payload) != 5:
-                    raise KeyError("As chaves: nome, telefone, email, peso e altura são obrigatórias")
+                raise KeyError(
+                    "As chaves: nome, telefone, email, peso e altura são obrigatórias"
+                )
             cls.validate_weight_height(new_payload)
 
             return new_payload
@@ -84,19 +86,18 @@ class AlunoModel(db.Model):
             raise IDNotExistent
 
         return student
-    
+
     @classmethod
     def update_student(cls, student_id, payload):
         student = cls.select_by_id(student_id)
-        cls.validate_keys(payload, update=True)       
-        
+        cls.validate_keys(payload, update=True)
 
         for key, value in payload.items():
             setattr(student, key, value)
 
         cls.add_session(student)
-        
-        return student 
+
+        return student
 
     @classmethod
     def select_training(cls, workouts):
@@ -108,10 +109,11 @@ class AlunoModel(db.Model):
                 "dia": training.dia,
                 "exercicios": training.exercicios,
             }
-            response_training.append(response)     
+            response_training.append(response)
 
-        return sorted(response_training, key=lambda response_training: response_training['id']) 
-    
+        return sorted(
+            response_training, key=lambda response_training: response_training["id"]
+        )
 
     @classmethod
     def delete_student(cls, student_id):
@@ -122,23 +124,22 @@ class AlunoModel(db.Model):
 
     @classmethod
     def response(cls, student):
-        session: Session = db.session()     
+        session: Session = db.session()
         personal = session.query(PersonalModel).get(student.personal_id)
         workouts = cls.select_training(student.treinos)
         response = {
             "nome": student.nome,
             "telefone": student.telefone,
-            "email":student.email,
+            "email": student.email,
             "peso": student.peso,
-            "altura":student.altura,
-            "imc": student.imc, 
-            "personal":{
-                "id": personal.id, 
+            "altura": student.altura,
+            "imc": student.imc,
+            "personal": {
+                "id": personal.id,
                 "nome": personal.nome,
                 "cpf": personal.cpf,
             },
-            "treinos": workouts                
-
+            "treinos": workouts,
         }
 
         return response
