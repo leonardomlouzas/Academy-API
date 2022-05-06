@@ -36,7 +36,7 @@ def signup():
         }, HTTPStatus.BAD_REQUEST
     except IntegrityError as e:
         if type(e.orig) == UniqueViolation:
-            return {"msg": "email ou CPF já existem"}, HTTPStatus.CONFLICT
+            return {"msg": "email e/ou CPF já existe(m)"}, HTTPStatus.CONFLICT
     except TypeError:
         return {"msg": "As chaves devem ser todas string"}, HTTPStatus.BAD_REQUEST
     except KeyError:
