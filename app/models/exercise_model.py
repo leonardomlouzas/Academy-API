@@ -89,12 +89,11 @@ class ExercicioModel(db.Model):
     @classmethod
     def select_equipment(cls, equipment_name):
         equipment = EquipmentModel.query.filter_by(nome=equipment_name).first()
-        
+
         if not equipment:
             raise EquipmentError("Aparelho não encontrado")
-          
+
         return equipment
-      
 
     @classmethod
     def update_exercise(cls, exercise_id, payload):
@@ -102,30 +101,28 @@ class ExercicioModel(db.Model):
 
         update_execution = cls.select_by_id(exercise_id).execucao
         for key in payload.keys():
-            if key in ['series', 'repeticoes', 'carga']:
+            if key in ["series", "repeticoes", "carga"]:
                 setattr(update_execution, key, payload[key])
         cls.add_session(update_execution)
 
-        if 'aparelho' in payload.keys():
-            equipment = cls.select_equipment(payload.pop('aparelho'))
-            payload['aparelho_id'] = equipment.id
+        if "aparelho" in payload.keys():
+            equipment = cls.select_equipment(payload.pop("aparelho"))
+            payload["aparelho_id"] = equipment.id
 
         exercise = cls.select_by_id(exercise_id)
-        for key,value in payload.items():
+        for key, value in payload.items():
             setattr(exercise, key, value)
         cls.add_session(exercise)
-
 
         return exercise
 
     @classmethod
     def delete_exercise(cls, exercise_id):
-      session: Session = db.session()
-      execution = cls.select_by_id(exercise_id).execucao
-      session.delete(execution)
-      session.commit()
+        session: Session = db.session()
+        execution = cls.select_by_id(exercise_id).execucao
+        session.delete(execution)
+        session.commit()
 
-      exercise = cls.select_by_id(exercise_id)
-      session.delete(exercise)
-      session.commit()
-
+        exercise = cls.select_by_id(exercise_id)
+        session.delete(exercise)
+        session.commit()

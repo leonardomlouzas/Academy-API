@@ -24,6 +24,7 @@ class EnumTreinoName(str, enum.Enum):
     E = "E"
     F = "F"
 
+
 @dataclass
 class TreinoModel(db.Model):
     id: int
@@ -86,7 +87,7 @@ class TreinoModel(db.Model):
     def select_personal(cls):
         current_personal = get_jwt_identity()
         session: Session = db.session()
-        personal = session.query(PersonalModel).get(current_personal['id'])
+        personal = session.query(PersonalModel).get(current_personal["id"])
         return personal
 
     @classmethod
@@ -95,9 +96,8 @@ class TreinoModel(db.Model):
 
         if not student:
             raise IDNotExistent("Aluno não cadastrado")
-          
+
         return student
-    
 
     @classmethod
     def select_exercise(cls, exercises):
@@ -117,10 +117,10 @@ class TreinoModel(db.Model):
             raise IDNotExistent("Id não encontrado")
 
         return training
-    
+
     @classmethod
     def response(cls, training):
-        session: Session = db.session()     
+        session: Session = db.session()
         personal = session.query(PersonalModel).get(training.personal_id)
         student = session.query(AlunoModel).get(training.aluno_id)
 
@@ -132,11 +132,10 @@ class TreinoModel(db.Model):
                 "id": personal.id,
                 "nome": personal.nome,
                 "email": personal.email,
-                "cpf": personal.cpf
-                },
+                "cpf": personal.cpf,
+            },
             "aluno": student,
             "exercicios": training.exercicios,
-
         }
         return response
 
@@ -144,15 +143,15 @@ class TreinoModel(db.Model):
     def update_training(cls, training_id, payload):
         training = cls.select_by_id(training_id)
         cls.validates_fields(payload, update=True)
-          
-        if 'exercicios' in payload.keys():
+
+        if "exercicios" in payload.keys():
             training.exercicios.clear()
-            for exercise in payload['exercicios']:
+            for exercise in payload["exercicios"]:
                 ex = cls.select_exercise(exercise)
                 training.exercicios.append(ex)
-            payload.pop('exercicios')
+            payload.pop("exercicios")
 
-        if payload: 
+        if payload:
             for key, value in payload.items():
                 setattr(training, key, value)
             cls.add_training(training)
