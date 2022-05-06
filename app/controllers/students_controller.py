@@ -52,9 +52,9 @@ def retrieve():
 
 
 @jwt_required()
-def retrieve_by_id(aluno_id):
+def retrieve_by_id(student_id):
     try:
-        student = AlunoModel.select_by_id(aluno_id)
+        student = AlunoModel.select_by_id(student_id)
         response = AlunoModel.response(student)
         return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
