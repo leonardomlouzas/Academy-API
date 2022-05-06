@@ -1,13 +1,16 @@
 from dataclasses import dataclass
-from sqlalchemy import Column, ForeignKey, Integer, String
+
 from app.configs.database import db
-from sqlalchemy.orm import validates
 from app.exception.id_not_existent_exc import IDNotExistent
+from app.exception.key_not_found import KeyNotFound
 from app.exception.type_error_exc import TypeNotAccepted
 from app.models.equipment_model import EquipmentModel
 from app.models.execucao_model import ExecucaoModel
-from .treino_exercicio_table import treino_exercicio
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import validates, backref
 from sqlalchemy.orm.session import Session
+
+from .treino_exercicio_table import treino_exercicio
 
 
 @dataclass
@@ -21,7 +24,7 @@ class ExercicioModel(db.Model):
     __tablename__ = 'exercicio'
 
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
+    nome = Column(String, nullable=False, unique=True)
     estimulo = Column(String)
 
     aparelho_id = Column(
@@ -42,21 +45,35 @@ class ExercicioModel(db.Model):
     treino = db.relationship(
       "TreinoModel",
       secondary=treino_exercicio,
-      backref="exercicios",
+      backref=backref("exercicios", uselist=True),
       uselist=True
     )
 
-    @validates("nome", "estimulo")
-    def validate(self, key, value):
-      if type(value) != str:
-        raise TypeNotAccepted("As chaves passadas devem ser strings")
-      return value
+    @classmethod
+    def validate_keys(cls, payload):
+      for key, value in payload.items():
+        if type(value) != str and key in {"nome", "estimulo", "carga", "aparelho"}:
+          raise TypeNotAccepted(f"A chave {key} devem ser uma strings")
+        if type(value) != int and key in {"series", "repeticoes"}:
+          raise TypeNotAccepted(f"A chave {key} devem ser um inteiro")
+
 
     @classmethod
-    def validates_fields(cls, payload):
-      for key, value in payload.items():
-        if key == 'nome' and type(value) != str:
-          raise TypeError
+    def validates_fields(cls, payload, update=False):
+        cls.validate_keys(payload)
+
+        expect_keys = {'nome', 'series', 'repeticoes', 'carga', 'estimulo', 'aparelho'}
+        new_payload = {}
+        for key, value in payload.items():
+            if not key in expect_keys and update:
+              raise KeyNotFound(f'{key} não encontrada')
+            if key in expect_keys:
+                new_payload[key] = value
+                
+        if not update:
+            if len(new_payload) != 6:
+                raise KeyError
+            return new_payload
 
     @classmethod
     def add_session(cls, payload):
@@ -76,21 +93,19 @@ class ExercicioModel(db.Model):
 
     @classmethod
     def update_exercise(cls, exercise_id, payload):
-      #Update Execucao
+      cls.validates_fields(payload, update=True)
+
       update_execucao = cls.select_by_id(exercise_id).execucao
       for key in payload.keys():
         if key in ['series', 'repeticoes', 'carga']:
           setattr(update_execucao, key, payload[key])
       cls.add_session(update_execucao)
 
-      #Update Aparelho
       if 'aparelho' in payload.keys():
         aparelho_id = EquipmentModel.query.filter_by(nome=payload.pop('aparelho')).first_or_404().id
         payload['aparelho_id'] = aparelho_id
 
       exercise = cls.select_by_id(exercise_id)
-
-      cls.validates_fields(payload)
 
       for key,value in payload.items():
         setattr(exercise, key, value)

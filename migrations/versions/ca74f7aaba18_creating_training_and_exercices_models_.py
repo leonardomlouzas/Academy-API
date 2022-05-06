@@ -31,6 +31,7 @@ def upgrade():
             ["equipment.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint('nome')
     )
     op.create_table(
         "treino",

@@ -30,9 +30,7 @@ def create_aluno():
         except TypeNotAccepted as e:
             return {'msg': str(e)}, HTTPStatus.BAD_REQUEST
         except KeyError as e:
-            return {'msg': str(e)}, HTTPStatus.BAD_REQUEST
-
-            
+            return {'msg': str(e)}, HTTPStatus.BAD_REQUEST         
 
 @jwt_required()
 def update_by_id(aluno_id):
@@ -52,10 +50,12 @@ def retrieve():
 
 @jwt_required()
 def retrieve_by_id(aluno_id): 
-      try: 
-          return jsonify(AlunoModel.select_by_id(aluno_id)), HTTPStatus.OK
-      except IDNotExistent: 
-          return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
+    try:
+        aluno = AlunoModel.select_by_id(aluno_id)
+        response = AlunoModel.response(aluno)
+        return jsonify(response), HTTPStatus.OK
+    except IDNotExistent: 
+        return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
       
 @jwt_required()
 def delete_by_id(aluno_id):

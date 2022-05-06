@@ -110,6 +110,20 @@ class AlunoModel(db.Model):
         return aluno      
     
     @classmethod
+    def select_treino(cls, treinos):
+        response_treino = []
+        for treino in treinos:
+            response = {
+                "id": treino.id,
+                "nome": treino.nome,
+                "dia": treino.dia,
+                "exercicios": treino.exercicios,
+            }
+            response_treino.append(response)     
+
+        return sorted(response_treino, key=lambda response_treino: response_treino['id']) 
+    
+    @classmethod
     def delete_aluno(cls, aluno_id):
         aluno = cls.select_by_id(aluno_id)
         session: Session = db.session()
@@ -120,6 +134,7 @@ class AlunoModel(db.Model):
     def response(cls, aluno):
         session: Session = db.session()     
         personal = session.query(PersonalModel).get(aluno.personal_id)
+        treinos = cls.select_treino(aluno.treinos)
         response = {
             "nome": aluno.nome,
             "telefone": aluno.telefone,
@@ -131,8 +146,10 @@ class AlunoModel(db.Model):
                 "id": personal.id, 
                 "nome": personal.nome,
                 "cpf": personal.cpf,
-            }                 
+            },
+            "treinos": treinos                
         }
+        
         return response
 
     @classmethod

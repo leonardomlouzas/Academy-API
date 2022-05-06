@@ -1,23 +1,26 @@
 from http import HTTPStatus
+
 from app.configs.database import db
 from app.exception.id_not_existent_exc import IDNotExistent
+from app.exception.key_not_found import KeyNotFound
+from app.exception.type_error_exc import TypeNotAccepted
 from app.exception.type_key_error_exc import TypeKeyError
 from app.models.equipment_model import EquipmentModel
 from app.models.execucao_model import ExecucaoModel
 from app.models.exercicio_model import ExercicioModel
 from flask import jsonify, request, session
+from flask_jwt_extended import jwt_required
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.session import Session
-from flask_jwt_extended import jwt_required
+
 
 @jwt_required()
 def create_exercise():
-    session: Session = db.session()
     data = request.get_json()
 
     try:
-        ExercicioModel.validates_fields(data)
+        data = ExercicioModel.validates_fields(data)
         
         new_execucao = {
             'series': data.pop('series'), 
@@ -35,12 +38,10 @@ def create_exercise():
 
 
         return jsonify(exercise), HTTPStatus.CREATED
-    except IntegrityError as error:
-        if type(error.orig) == UniqueViolation:
-            return {'msg': 'exercício já existente'}, HTTPStatus.CONFLICT
-    except TypeKeyError:
-        return {'msg': 'É esperado que a chave "nome" seja uma string'}, HTTPStatus.CONFLICT
-    except TypeError:
+
+    except TypeNotAccepted as e:
+        return {'msg': str(e)}, HTTPStatus.CONFLICT
+    except KeyError:
         return {'msg': 'Chaves nome, series, repetições, carga, estimulo e aparelho são obrigatórias'}, HTTPStatus.CONFLICT
 
 @jwt_required()
@@ -50,8 +51,13 @@ def update(exercise_id):
         return jsonify(ExercicioModel.update_exercise(exercise_id, data)), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
+    except KeyNotFound as e:
+        return {'msg': str(e)}, HTTPStatus.NOT_FOUND
+    except TypeNotAccepted as e:
+        return {'msg': str(e)}, HTTPStatus.CONFLICT
 
-#@jwt_required()
+
+@jwt_required()
 def delete(exercise_id):
     try:
         ExercicioModel.delete_exercise(exercise_id)
