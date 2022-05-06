@@ -3,12 +3,8 @@ from app.configs.database import db
 from app.exception.exercise_error_exc import ExerciseError
 from app.exception.id_not_existent_exc import IDNotExistent
 from app.exception.type_error_exc import TypeNotAccepted
-from app.exception.type_key_error_exc import TypeKeyError
 from app.models.treino_model import TreinoModel
-from app.models.personal_model import PersonalModel
-from app.models.exercicio_model import ExercicioModel
-from app.models.aluno_model import AlunoModel
-from flask import jsonify, request, session
+from flask import jsonify, request
 from sqlalchemy.orm.session import Session
 from flask_jwt_extended import jwt_required
 
@@ -45,7 +41,6 @@ def create():
     except KeyError:
         return {'msg': 'Chaves nome, email_aluno, dia e exercícios são obrigatórias'}, HTTPStatus.NOT_FOUND
 
-
 @jwt_required()
 def update(treino_id):
     data = request.get_json()
@@ -63,9 +58,11 @@ def update(treino_id):
 
 def access():
     session: Session = db.session()
+    treinos = []
     training = session.query(TreinoModel).all()
-    return {"treinos": training}, HTTPStatus.OK
-
+    for treino in training:
+        treinos.append(TreinoModel.response(treino))
+    return {"treinos": treinos}, HTTPStatus.OK
 
 def access_by_id(treino_id):
     try:
@@ -74,7 +71,6 @@ def access_by_id(treino_id):
         return jsonify(response), HTTPStatus.OK
     except IDNotExistent:
         return {'msg': 'Id não encontrado'}, HTTPStatus.NOT_FOUND
-
 
 @jwt_required()
 def delete(treino_id):
