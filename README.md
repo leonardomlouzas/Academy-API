@@ -1,6 +1,6 @@
 # **Kenzie-Fit**
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus risus eget ornare fermentum. Vestibulum odio orci, tincidunt sit amet malesuada eget, porttitor nec felis. Ut vestibulum ullamcorper convallis.
+Api voltadada à profissionais da área da Educação Física, onde um personal trainer poderá cadastrar seus alunos e planejar seus treinos semanais. Segue abaixo as informações necessárias para o consumo da api:
 
 > <p>BASE URL: <a href="https://academy-api-kenzie.herokuapp.com/">AQUI</a></p>
 > <p>Front-End: <a href="https://github.com/thdias00/kenzie-fit">AQUI</a></p>
@@ -18,9 +18,9 @@ Corpo da requisição:
 
 ```json
 {
-  "nome": "Augusto Pereira",
-  "email": "Augusto@email.com",
-  "cpf": "333.333.333-33",
+  "nome": "Lucas Pereira",
+  "email": "Lucas@email.com",
+  "cpf": "333.333.333-34",
   "senha": "*aA123456"
 }
 ```
@@ -29,10 +29,10 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
-  "id": 2,
-  "nome": "Augusto Pereira",
-  "email": "Augusto@email.com",
-  "cpf": "333.333.333-33",
+  "id": 3,
+  "nome": "Lucas Pereira",
+  "email": "Lucas@email.com",
+  "cpf": "333.333.333-34",
   "alunos": []
 }
 ```
@@ -55,16 +55,16 @@ Corpo da resposta `200 OK`:
   "personal": [
     {
       "id": 1,
-      "nome": "José Alves",
-      "email": "jose1@email.com",
-      "cpf": "333.333.333-32",
-      "alunos": []
-    },
-    {
-      "id": 2,
       "nome": "Augusto Pereira",
       "email": "Augusto@email.com",
       "cpf": "333.333.333-33",
+      "alunos": []
+    },
+    {
+      "id": 3,
+      "nome": "Lucas Pereira",
+      "email": "Lucas@email.com",
+      "cpf": "333.333.333-34",
       "alunos": []
     }
   ]
@@ -86,10 +86,10 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
-  "id": 2,
-  "nome": "Augusto Pereira",
-  "email": "Augusto@email.com",
-  "cpf": "333.333.333-33",
+  "id": 3,
+  "nome": "Lucas Pereira",
+  "email": "Lucas@email.com",
+  "cpf": "333.333.333-34",
   "alunos": []
 }
 ```
@@ -103,8 +103,8 @@ Corpo da requisição:
 
 ```json
 {
-  "email": "jose1@email.com", //Obrigatório
-  "senha": "Aa*123" //Obrigatório
+  "email": "Lucas@email.com",
+  "senha": "*aA123456"
 }
 ```
 
@@ -112,7 +112,14 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1MTgwNDExNiwianRpIjoiOTE5ZDMyZTEtZTBiZS00ODE2LWIxZmMtNDY5MjUwNDUxNmJjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJpZCI6Mywibm9tZSI6Ikx1Y2FzIFBlcmVpcmEiLCJlbWFpbCI6Ikx1Y2FzQGVtYWlsLmNvbSIsImNwZiI6IjMzMy4zMzMuMzMzLTM0IiwiYWx1bm9zIjpbXX0sIm5iZiI6MTY1MTgwNDExNiwiZXhwIjoxNjUxODA3NzE2fQ.M4lOkNw83LL4zOvysrrHQGL7TRJKPtvxbGlEu3MWP60",
+  "user": {
+    "id": 3,
+    "nome": "Lucas Pereira",
+    "email": "Lucas@email.com",
+    "cpf": "333.333.333-34",
+    "alunos": []
+  }
 }
 ```
 
@@ -125,18 +132,18 @@ Corpo da requisição:
 
 ```json
 {
-  "nome": "Augusto Pereira Silva"
+  "nome": "Lucas Pereira Silva"
 }
 ```
 
-Corpo da resposta `201 CREATED`:
+Corpo da resposta `200 OK`:
 
 ```json
 {
-  "id": 2,
-  "nome": "Augusto Pereira Silva",
-  "email": "Augusto@email.com",
-  "cpf": "333.333.333-33",
+  "id": 3,
+  "nome": "Lucas Pereira Silva",
+  "email": "Lucas@email.com",
+  "cpf": "333.333.333-34",
   "alunos": []
 }
 ```
@@ -164,6 +171,7 @@ Não há corpo
 
 <details>
   <summary>POST <code>/students</code></summary>
+
 <p>Cadastra um novo aluno no banco de dados.</p>
 Corpo da requisição:
 
@@ -185,14 +193,14 @@ Corpo da resposta `201 CREATED`:
   "telefone": "(99)99999-9999",
   "email": "antonio@email.com",
   "peso": 80,
-  "altura": 1.75,
-  "id": 1,
-  "imc": 26.1,
+  "altura": 2.0,
+  "imc": 26.0,
   "personal": {
     "id": 1,
-    "nome": "José Alvez",
+    "nome": "Augusto Pereira",
     "cpf": "333.333.333-33"
-  }
+  },
+  "treinos": []
 }
 ```
 
@@ -200,6 +208,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>GET <code>/students</code></summary>
+
 <p>Retorna uma lista contendo todos os alunos cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -211,61 +220,29 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
-    "alunos": [
-        {
-        "id": 1,
-        "nome": "Antonio Luiz",
-        "telefone": "(99)99999-9999",
-        "email": "antonio@email.com",
-        "peso": 80,
-        "altura": 1.75,
-        "imc": 26.1,
-        "treinos": [
-            {"id": 1,
-            "nome": "A",
-            "personal": {
-                "nome": "José Alvez",
-                "email": "jose@alves.com",
-                "cpf": "333.333.333-33"
-            },
-            "dia": "Segunda-Feira",
-            "exercicios": [
-                {
-                    "id": 1,
-                    "nome": "Supino Reto",
-                    "execução": {
-                        "id": 1,
-                        "series": 3,
-                        "repetições": 10,
-                        "carga": "10kg de cada lado"
-                },
-                "aparelho": {
-                    "id": 1,
-                    "nome": "Máquina Supino",
-                    "código": 1
-                }
-                },
-                {
-                    "id": 2,
-                    "nome": "Pack Deck",
-                    "execução": {
-                        "id": 2,
-                        "series": 4,
-                        "repetições": 12,
-                        "carga": "40kg"
-                    },
-                    {"aparelho": {
-                        "id": 2,
-                        "nome": "Pack Deck",
-                        "código": 5
-                    }
-                    }
-                }
-            ]
-            }
-        ]
-        }
-    ]
+  "count": 2,
+  "alunos": [
+    {
+      "id": 1,
+      "nome": "Antonio Ruiz",
+      "telefone": "(99)99999-9999",
+      "email": "antonio@email.com",
+      "peso": 80,
+      "altura": 2.0,
+      "imc": 26.0,
+      "treinos": []
+    },
+    {
+      "id": 2,
+      "nome": "Carlos Barbosa",
+      "telefone": "(99)99999-9999",
+      "email": "Carlos@email.com",
+      "peso": 80,
+      "altura": 2.0,
+      "imc": 26.0,
+      "treinos": []
+    }
+  ]
 }
 ```
 
@@ -273,6 +250,7 @@ Corpo da resposta `200 OK`:
 
 <details>
   <summary>GET <code>/students/:id</code></summary>
+
 <p>Retorna as informações do aluno indicado na url.</p>
 Corpo da requisição:
 
@@ -284,57 +262,19 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
+  "id": 1,
+  "nome": "Antonio Ruiz",
+  "telefone": "(99)99999-9999",
+  "email": "antonio@email.com",
+  "peso": 80,
+  "altura": 2.0,
+  "imc": 26.0,
+  "personal": {
     "id": 1,
-    "nome": "Antonio Luiz",
-    "telefone": "(99)99999-9999",
-    "email": "antonio@email.com",
-    "peso": 80,
-    "altura": 1.75,
-    "imc": 26.1,
-    "treinos": [
-        {"id": 1,
-        "nome": "A",
-        "personal": {
-            "nome": "José Alvez",
-            "email": "jose@alves.com",
-            "cpf": "333.333.333-33"
-        },
-        "dia": "Segunda-Feira",
-        "exercicios": [
-            {
-                "id": 1,
-                "nome": "Supino Reto",
-                "execução": {
-                    "id": 1,
-                    "series": 3,
-                    "repetições": 10,
-                    "carga": "10kg de cada lado"
-            },
-            "aparelho": {
-                "id": 1,
-                "nome": "Máquina Supino",
-                "código": 1
-            }
-            },
-            {
-                "id": 2,
-                "nome": "Pack Deck",
-                "execução": {
-                    "id": 2,
-                    "series": 4,
-                    "repetições": 12,
-                    "carga": "40kg"
-                },
-                {"aparelho": {
-                    "id": 2,
-                    "nome": "Pack Deck",
-                    "código": 5
-                }
-                }
-            }
-        ]
-        }
-    ]
+    "nome": "Augusto Pereira",
+    "cpf": "333.333.333-33"
+  },
+  "treinos": []
 }
 ```
 
@@ -342,6 +282,7 @@ Corpo da resposta `200 OK`:
 
 <details>
   <summary>PATCH <code>/students</code></summary>
+
 <p>Atualiza as informações de um aluno no banco de dados.</p>
 Corpo da requisição:
 
@@ -351,16 +292,18 @@ Corpo da requisição:
 }
 ```
 
-Corpo da resposta `201 CREATED`:
+Corpo da resposta `200 OK`:
 
 ```json
 {
+  "id": 1,
   "nome": "Antonio Luiz",
   "telefone": "(99)99999-9999",
   "email": "antonio@email.com",
   "peso": 80,
-  "altura": 1.75,
-  "imc": 26.1
+  "altura": 2.0,
+  "imc": 26.0,
+  "treinos": []
 }
 ```
 
@@ -368,6 +311,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>DELETE <code>/students/:id</code></summary>
+
 <p>Deleta um aluno do banco de dados.</p>
 Corpo da requisição:
 
@@ -387,6 +331,7 @@ Não há corpo
 
 <details>
   <summary>POST <code>/exercise</code></summary>
+
 <p>Cadastra um novo exercício no banco de dados.</p>
 Corpo da requisição:
 
@@ -405,18 +350,19 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
+  "id": 1,
   "nome": "Supino Reto",
   "estimulo": "Peito",
-  "aparelho": {
-    "id": 1,
-    "nome": "Supino",
-    "código": 2
-  },
-  "id": 1,
   "execucao": {
+    "id": 1,
     "series": 4,
     "repeticoes": 15,
     "carga": "10kg cada lado"
+  },
+  "aparelho": {
+    "id": 3,
+    "nome": "Supino",
+    "codigo": 2
   }
 }
 ```
@@ -425,6 +371,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>GET <code>/exercise</code></summary>
+
 <p>Retorna uma lista contendo todos os exercícios cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -435,30 +382,47 @@ Não há corpo
 Corpo da resposta `200 OK`:
 
 ```json
-{
-  "exercicios": [
-    {
+[
+  {
+    "id": 1,
+    "nome": "Supino Reto",
+    "estimulo": "Peito",
+    "execucao": {
       "id": 1,
-      "nome": "Supino Reto",
-      "execucao": {
-        "series": 4,
-        "repetições": 10,
-        "carga": "10 kg de cada lado"
-      },
-      "aparelho": {
-        "id": 1,
-        "nome": "Supino",
-        "código": 2
-      }
+      "series": 4,
+      "repeticoes": 15,
+      "carga": "10kg cada lado"
+    },
+    "aparelho": {
+      "id": 3,
+      "nome": "Supino",
+      "codigo": 2
     }
-  ]
-}
+  },
+  {
+    "id": 2,
+    "nome": "Supino Inclinado",
+    "estimulo": "Peito",
+    "execucao": {
+      "id": 2,
+      "series": 4,
+      "repeticoes": 15,
+      "carga": "10kg cada lado"
+    },
+    "aparelho": {
+      "id": 3,
+      "nome": "Supino",
+      "codigo": 2
+    }
+  }
+]
 ```
 
 </details>
 
 <details>
   <summary>GET <code>/exercise/:id</code></summary>
+
 <p>Retorna as informações do exercício indicado na url.</p>
 Corpo da requisição:
 
@@ -472,15 +436,17 @@ Corpo da resposta `200 OK`:
 {
   "id": 1,
   "nome": "Supino Reto",
+  "estimulo": "Peito",
   "execucao": {
+    "id": 1,
     "series": 4,
-    "repetições": 10,
-    "carga": "10 kg de cada lado"
+    "repeticoes": 15,
+    "carga": "10kg cada lado"
   },
   "aparelho": {
-    "id": 1,
+    "id": 3,
     "nome": "Supino",
-    "código": 2
+    "codigo": 2
   }
 }
 ```
@@ -489,12 +455,13 @@ Corpo da resposta `200 OK`:
 
 <details>
   <summary>PATCH <code>/exercise/:id</code></summary>
+
 <p>Atualiza as informações de um exercício no banco de dados.</p>
 Corpo da requisição:
 
 ```json
 {
-  "repetições": 10
+  "repeticoes": 10
 }
 ```
 
@@ -504,15 +471,17 @@ Corpo da resposta `201 CREATED`:
 {
   "id": 1,
   "nome": "Supino Reto",
+  "estimulo": "Peito",
   "execucao": {
+    "id": 1,
     "series": 4,
     "repeticoes": 10,
-    "carga": "10kg de cada lado"
+    "carga": "10kg cada lado"
   },
   "aparelho": {
-    "id": 1,
+    "id": 3,
     "nome": "Supino",
-    "código": 2
+    "codigo": 2
   }
 }
 ```
@@ -521,6 +490,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>DELETE <code>/exercise/:id</code></summary>
+
 <p>Deleta um exercício do banco de dados.</p>
 Corpo da requisição:
 
@@ -540,16 +510,18 @@ Não há corpo
 
 <details>
   <summary>POST <code>/training</code></summary>
+
 <p>Cadastra um novo treino no banco de dados.</p>
 Corpo da requisição:
 
 ```json
 {
   "nome": "A",
-  "personal": "José Alves Santos",
-  "aluno": "Antonio Luiz",
+  "personal_id": "1",
+  "aluno_id": "1",
+  "email_aluno": "antonio@email.com",
   "dia": "Segunda-Feira",
-  "exercicios": ["Supino Reto", "Peck Deck"]
+  "exercicios": ["Supino", "Supino Inclinado"]
 }
 ```
 
@@ -557,54 +529,65 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
+  "id": 1,
   "nome": "A",
+  "dia": "Segunda-Feira",
   "personal": {
-    "nome": "José Alvez",
-    "email": "jose@alves.com",
+    "id": 1,
+    "nome": "Augusto Pereira",
+    "email": "Augusto@email.com",
     "cpf": "333.333.333-33"
   },
   "aluno": {
+    "id": 1,
     "nome": "Antonio Luiz",
     "telefone": "(99)99999-9999",
     "email": "antonio@email.com",
     "peso": 80,
-    "altura": 1.75,
-    "IMC": 26.12
+    "altura": 2.0,
+    "imc": 26.0,
+    "treinos": [
+      {
+        "id": 1,
+        "nome": "A",
+        "dia": "Segunda-Feira"
+      }
+    ]
   },
-  "dia": "Segunda-Feira",
   "exercicios": [
     {
-      "id": 1,
-      "nome": "Supino Reto",
-      "execucao": {
-        "id": 1,
-        "series": 3,
-        "repeticoes": 10,
-        "carga": "10kg cada lado"
-      },
-      "aparelho": {
-        "id": 1,
-        "nome": "Supino",
-        "código": 2
-      }
-    },
-    {
       "id": 2,
-      "nome": "Pack Deck",
+      "nome": "Supino Inclinado",
+      "estimulo": "Peito",
       "execucao": {
         "id": 2,
         "series": 4,
-        "repeticoes": 12,
-        "carga": "40kg"
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
       },
       "aparelho": {
-        "id": 2,
-        "nome": "Pack Deck",
-        "código": 5
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
+      }
+    },
+    {
+      "id": 3,
+      "nome": "Supino",
+      "estimulo": "Peito",
+      "execucao": {
+        "id": 3,
+        "series": 4,
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
+      },
+      "aparelho": {
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
       }
     }
-  ],
-  "id": 1
+  ]
 }
 ```
 
@@ -612,6 +595,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>GET <code>/training</code></summary>
+
 <p>Retorna uma lista contendo todos os treinos cadastrados no banco de dados.</p>
 Corpo da requisição:
 
@@ -627,48 +611,60 @@ Corpo da resposta `200 OK`:
     {
       "id": 1,
       "nome": "A",
+      "dia": "Segunda-Feira",
       "personal": {
-        "nome": "Jose Alvez",
-        "email": "jose@alves.com",
+        "id": 1,
+        "nome": "Augusto Pereira",
+        "email": "Augusto@email.com",
         "cpf": "333.333.333-33"
       },
       "aluno": {
-        "nome": "Antonio luiz",
+        "id": 1,
+        "nome": "Antonio Luiz",
         "telefone": "(99)99999-9999",
         "email": "antonio@email.com",
         "peso": 80,
-        "altura": 1.75,
-        "imc": 26.12
+        "altura": 2.0,
+        "imc": 26.0,
+        "treinos": [
+          {
+            "id": 1,
+            "nome": "A",
+            "dia": "Segunda-Feira"
+          }
+        ]
       },
       "exercicios": [
         {
-          "id": 3,
-          "nome": "Crossover",
-          "execucao": {
-            "id": 3,
-            "series": 3,
-            "repeticoes": 15,
-            "carga": "5kg de cada lado"
-          },
-          "aparelho": {
-            "id": 3,
-            "nome": "Cross",
-            "código": 8
-          }
-        },
-        {
           "id": 2,
-          "nome": "Pack Deck",
+          "nome": "Supino Inclinado",
+          "estimulo": "Peito",
           "execucao": {
             "id": 2,
             "series": 4,
-            "repeticoes": 12,
-            "carga": "40kg"
+            "repeticoes": 15,
+            "carga": "10kg cada lado"
           },
           "aparelho": {
-            "id": 2,
-            "nome": "Pack Deck",
-            "código": 5
+            "id": 3,
+            "nome": "Supino",
+            "codigo": 2
+          }
+        },
+        {
+          "id": 3,
+          "nome": "Supino",
+          "estimulo": "Peito",
+          "execucao": {
+            "id": 3,
+            "series": 4,
+            "repeticoes": 15,
+            "carga": "10kg cada lado"
+          },
+          "aparelho": {
+            "id": 3,
+            "nome": "Supino",
+            "codigo": 2
           }
         }
       ]
@@ -681,6 +677,7 @@ Corpo da resposta `200 OK`:
 
 <details>
   <summary>GET <code>/training/:id</code></summary>
+
 <p>Retorna as informações do treino indicado na url.</p>
 Corpo da requisição:
 
@@ -694,48 +691,60 @@ Corpo da resposta `200 OK`:
 {
   "id": 1,
   "nome": "A",
+  "dia": "Segunda-Feira",
   "personal": {
-    "nome": "Jose Alvez",
-    "email": "jose@alves.com",
+    "id": 1,
+    "nome": "Augusto Pereira",
+    "email": "Augusto@email.com",
     "cpf": "333.333.333-33"
   },
   "aluno": {
-    "nome": "Antonio luiz",
+    "id": 1,
+    "nome": "Antonio Luiz",
     "telefone": "(99)99999-9999",
     "email": "antonio@email.com",
     "peso": 80,
-    "altura": 1.75,
-    "imc": 26.12
+    "altura": 2.0,
+    "imc": 26.0,
+    "treinos": [
+      {
+        "id": 1,
+        "nome": "A",
+        "dia": "Segunda-Feira"
+      }
+    ]
   },
   "exercicios": [
     {
-      "id": 3,
-      "nome": "Crossover",
-      "execucao": {
-        "id": 3,
-        "series": 3,
-        "repeticoes": 15,
-        "carga": "5kg de cada lado"
-      },
-      "aparelho": {
-        "id": 3,
-        "nome": "Cross",
-        "código": 8
-      }
-    },
-    {
       "id": 2,
-      "nome": "Pack Deck",
+      "nome": "Supino Inclinado",
+      "estimulo": "Peito",
       "execucao": {
         "id": 2,
         "series": 4,
-        "repeticoes": 12,
-        "carga": "40kg"
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
       },
       "aparelho": {
-        "id": 2,
-        "nome": "Pack Deck",
-        "código": 5
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
+      }
+    },
+    {
+      "id": 3,
+      "nome": "Supino",
+      "estimulo": "Peito",
+      "execucao": {
+        "id": 3,
+        "series": 4,
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
+      },
+      "aparelho": {
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
       }
     }
   ]
@@ -746,12 +755,13 @@ Corpo da resposta `200 OK`:
 
 <details>
   <summary>PATCH <code>/training/:id</code></summary>
+
 <p>Atualiza as informações de um treino no banco de dados.</p>
 Corpo da requisição:
 
 ```json
 {
-  "exercicios": ["Crossover", "Pack Deck"]
+  "exercicios": ["Barra", "Barra Inclinada"]
 }
 ```
 
@@ -759,47 +769,65 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
-  "exercicios": [
-    {
-      "id": 3,
-      "repetições": "15",
-      "series": 3,
-      "nome": "Crossover",
-      "carga": "5kg de cada lado",
-      "aparelho": {
-        "id": 3,
-        "nome": "Cross",
-        "código": 8
-      }
-    },
-    {
-      "id": 2,
-      "nome": "Peck Deck",
-      "series": 4,
-      "repetições": "12",
-      "carga": "40kg",
-      "aparelho": {
-        "id": 2,
-        "nome": "Pack Deck",
-        "código": 5
-      }
-    }
-  ],
   "id": 1,
-  "nome": ["A"],
+  "nome": "A",
+  "dia": "Segunda-Feira",
   "personal": {
-    "nome": "Jose Alvez",
-    "email": "jose@alves.com",
+    "id": 1,
+    "nome": "Augusto Pereira",
+    "email": "Augusto@email.com",
     "cpf": "333.333.333-33"
   },
   "aluno": {
+    "id": 1,
     "nome": "Antonio Luiz",
     "telefone": "(99)99999-9999",
     "email": "antonio@email.com",
     "peso": 80,
-    "altura": 1.75,
-    "imc": 26.12
-  }
+    "altura": 2.0,
+    "imc": 26.0,
+    "treinos": [
+      {
+        "id": 1,
+        "nome": "A",
+        "dia": "Segunda-Feira"
+      }
+    ]
+  },
+  "exercicios": [
+    {
+      "id": 4,
+      "nome": "Barra",
+      "estimulo": "Peito",
+      "execucao": {
+        "id": 4,
+        "series": 4,
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
+      },
+      "aparelho": {
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
+      }
+    },
+    {
+      "id": 6,
+      "nome": "Barra Inclinada",
+      "estimulo": "Peito",
+      "execucao": {
+        "id": 6,
+        "series": 4,
+        "repeticoes": 15,
+        "carga": "10kg cada lado"
+      },
+      "aparelho": {
+        "id": 3,
+        "nome": "Supino",
+        "codigo": 2
+      }
+    }
+  ]
 }
 ```
 
@@ -807,6 +835,7 @@ Corpo da resposta `201 CREATED`:
 
 <details>
   <summary>DELETE <code>/training/:id</code></summary>
+
 <p>Deleta um treino do banco de dados.</p>
 Corpo da requisição:
 
@@ -832,7 +861,7 @@ Corpo da requisição:
 ```json
 {
   "nome": "Supino",
-  "codigo": 1
+  "codigo": 2
 }
 ```
 
@@ -840,9 +869,9 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
+  "id": 3,
   "nome": "Supino",
-  "codigo": 1,
-  "id": 1
+  "codigo": 2
 }
 ```
 
@@ -861,11 +890,17 @@ Corpo da resposta `200 OK`:
 
 ```json
 {
-  "equipamentos": [
+  "count": 2,
+  "equipments": [
     {
       "id": 1,
-      "nome": "Máquina de Supino",
+      "nome": "Barra Lateral",
       "codigo": 1
+    },
+    {
+      "id": 3,
+      "nome": "Supino",
+      "codigo": 2
     }
   ]
 }
@@ -887,7 +922,7 @@ Corpo da resposta `200 OK`:
 ```json
 {
   "id": 1,
-  "nome": "Máquina de Supino",
+  "nome": "Barra Reta",
   "codigo": 1
 }
 ```
@@ -901,7 +936,7 @@ Corpo da requisição:
 
 ```json
 {
-  "nome": "Máquina de Supino"
+  "nome": "Barra Fixa"
 }
 ```
 
@@ -909,9 +944,9 @@ Corpo da resposta `201 CREATED`:
 
 ```json
 {
-  "nome": "Máquina de Supino",
-  "codigo": 1,
-  "id": 1
+  "id": 1,
+  "nome": "Barra Fixa",
+  "codigo": 1
 }
 ```
 
