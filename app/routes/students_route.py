@@ -2,7 +2,7 @@ from flask import Blueprint
 
 from app.controllers import students_controller
 
-bp = Blueprint("students", __name__, url_prefix="/students")
+bp = Blueprint("students", __name__, url_prefix="/student")
 
 bp.post("")(students_controller.create_aluno)
 bp.get("/")(students_controller.retrieve)
