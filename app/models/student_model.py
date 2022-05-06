@@ -128,6 +128,7 @@ class AlunoModel(db.Model):
         personal = session.query(PersonalModel).get(student.personal_id)
         workouts = cls.select_training(student.treinos)
         response = {
+            "id": student.id,
             "nome": student.nome,
             "telefone": student.telefone,
             "email": student.email,
