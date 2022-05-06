@@ -1,0 +1,2 @@
+class TypeNotAccepted(Exception):
+    pass
