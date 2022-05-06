@@ -1,0 +1,858 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2022-05-06T18:51:56.256Z",
+  "__export_source": "insomnia.desktop.app:v2021.6.0",
+  "resources": [
+    {
+      "_id": "req_3484ea4883a64832909e560dbff7bbe8",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651863099561,
+      "created": 1651193242887,
+      "url": "{{ base_url }}/personal/signup",
+      "name": "Personal New",
+      "description": "Cadastra um novo personal no banco de dados.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Lucas Pereira\",\n\t\"email\": \"Lucas@email.com\",\n\t\"cpf\": \"333.333.333-34\",\n\t\"senha\": \"*aA123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_a98136e7c84c4c7db04f3498a047108b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1651063119014,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_686411400bfa40e786500cf9e77eea32",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651619035222,
+      "created": 1651193137516,
+      "name": "Personal",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1651193137553.5,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "parentId": null,
+      "modified": 1651193091669,
+      "created": 1651193091669,
+      "name": "CAPSTONE Q3",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_07ef658b4369437db40dc708fa2fab25",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651862127088,
+      "created": 1651601986823,
+      "url": "{{ base_url }}/personal/signin",
+      "name": "Personal Login",
+      "description": "Realiza o login de um personal já cadastrado no banco de dados",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"Lucas@email.com\",\n\t\"senha\": \"*aA123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_a98136e7c84c4c7db04f3498a047108b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1651063118989,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_1c4c32bd82ea4ac980d05ae8b24ef5bb",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651804257748,
+      "created": 1651193149326,
+      "url": "{{ base_url }}/personal",
+      "name": "Personal List",
+      "description": "Retorna uma lista contendo todos os personais cadastrados no banco de dados",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651063118964,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5bf7aa1c4c2849ddb8dc8749b1bcd6fd",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651862125069,
+      "created": 1651193538247,
+      "url": "{{ base_url }}/personal/profile",
+      "name": "Personal Single",
+      "description": "Retorna as informações do personal indicado no token.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651063118939,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_08b48020374d4ae494ecbff82ed8c0a2",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651862130271,
+      "created": 1651193452465,
+      "url": "{{ base_url }}/personal",
+      "name": "Personal Update",
+      "description": "Atualiza as informações de um personal já cadastrado no banco de dados",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Lucas Pereira Silva\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_264b2467b10340b1bbc77a0420de1cfc"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651063118914,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5022bb4808d647b383c7bd028dd8b156",
+      "parentId": "fld_686411400bfa40e786500cf9e77eea32",
+      "modified": 1651805654971,
+      "created": 1651193609693,
+      "url": "{{ base_url }}/personal",
+      "name": "Personal Delete",
+      "description": "Exclui um personal do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651063118889,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_69b011c5233c44bca111252117ccc23c",
+      "parentId": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "modified": 1651862624541,
+      "created": 1651619823872,
+      "url": "{{base_url}}/student",
+      "name": "Aluno New",
+      "description": "Cadastra um novo aluno no banco de dados",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Carlos Barbosa\",\n  \"telefone\": \"(99)99999-9999\",\n  \"email\": \"Carlos@email.com\",\n  \"peso\": 80,\n  \"altura\": 1.75\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_00378a04829c45f5b61cc2e656676246"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330195.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651619831400,
+      "created": 1651619823869,
+      "name": "Aluno",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1651193137547.25,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_4a2e6480b6e341ffb8acd5fb7c64b027",
+      "parentId": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "modified": 1651862627212,
+      "created": 1651619823883,
+      "url": "{{base_url}}/student",
+      "name": "Aluno List",
+      "description": "Retorna uma lista contendo todos os alunos cadastrados no banco de dados",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330145.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3245dd5109d040a3885119a26baa824a",
+      "parentId": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "modified": 1651862628986,
+      "created": 1651619823885,
+      "url": "{{base_url}}/student/{% response 'body', 'req_4a2e6480b6e341ffb8acd5fb7c64b027', 'b64::JC5hbHVub3NbMF0uaWQ=::46b', 'always', 60 %}",
+      "name": "Aluno Single",
+      "description": "Retorna as informações do aluno indicado na url",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330120.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8e23336c3f0746369381f642357795e1",
+      "parentId": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "modified": 1651862629822,
+      "created": 1651619823884,
+      "url": "{{base_url}}/student/{% response 'body', 'req_3245dd5109d040a3885119a26baa824a', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Aluno Update",
+      "description": "Atualiza as informações de um aluno no banco de dados",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Antonio Luiz\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_264b2467b10340b1bbc77a0420de1cfc"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330095.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a8993272de88425da7898059574b654b",
+      "parentId": "fld_1cfe2e5759c944858b9b66f349c92967",
+      "modified": 1651862630311,
+      "created": 1651619823886,
+      "url": "{{base_url}}/student/{% response 'body', 'req_3245dd5109d040a3885119a26baa824a', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Aluno Delete",
+      "description": "Deleta um aluno do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330045.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_567b93fd27874d36b32fe98d4a11e216",
+      "parentId": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "modified": 1651862741500,
+      "created": 1651619492907,
+      "url": "{{base_url}}/equipment",
+      "name": "Equipamento New",
+      "description": "Cadastra um novo equipamento no banco de dados",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Barra Lateral\",\n  \"codigo\": 5\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_00378a04829c45f5b61cc2e656676246"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330195.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651805228976,
+      "created": 1651619492903,
+      "name": "Equipamento",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1651193137544.125,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_c5040f07c73a4701893584c7fa2c7062",
+      "parentId": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "modified": 1651805773008,
+      "created": 1651619492915,
+      "url": "{{base_url}}/equipment",
+      "name": "Equipamento List",
+      "description": "Retorna uma lista contendo todos os equipamentos cadastrados no banco de dados",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330145.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6f5a9b02569e46afb3a4204f730c98c2",
+      "parentId": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "modified": 1651862689142,
+      "created": 1651619492918,
+      "url": "{{base_url}}/equipment/{% response 'body', 'req_c5040f07c73a4701893584c7fa2c7062', 'b64::JC5lcXVpcGFtZW50b3NbMF0uaWQ=::46b', 'always', 60 %}",
+      "name": "Equipamento Single",
+      "description": "Retorna as informações do equipamento indicado na url",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330120.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3373113aa98f469686fc6641826c4671",
+      "parentId": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "modified": 1651862697281,
+      "created": 1651619492917,
+      "url": "{{base_url}}/equipment/{% response 'body', 'req_6f5a9b02569e46afb3a4204f730c98c2', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Equipamento Update",
+      "description": "Atualiza as informações de um equipamento no banco de dados",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Barra Fixa\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_264b2467b10340b1bbc77a0420de1cfc"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330095.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9b54125481bf4786b867ff506a3aa6c7",
+      "parentId": "fld_73b77b5125b44b8d9af13f9a185bb329",
+      "modified": 1651862743661,
+      "created": 1651619492919,
+      "url": "{{base_url}}/equipment/{% response 'body', 'req_6f5a9b02569e46afb3a4204f730c98c2', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Equipamento Delete",
+      "description": "Deleta um equipamento do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330045.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3f6279defdff4b43864524e1f2483b1d",
+      "parentId": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "modified": 1651863020737,
+      "created": 1651618908575,
+      "url": "{{base_url}}/exercise",
+      "name": "Exercicio New",
+      "description": "Cadastra um novo exercício no banco de dados",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Barra Inclinada\",\n  \"series\": 4,\n  \"repeticoes\": 15,\n  \"carga\": \"10kg cada lado\",\n  \"estimulo\": \"Peito\",\n  \"aparelho\": \"Supino\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_00378a04829c45f5b61cc2e656676246"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330195.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651619032579,
+      "created": 1651618897624,
+      "name": "Exercicio",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1651193137541,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_000b2fe3fd544a53b54c86fe5a6992a8",
+      "parentId": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "modified": 1651862771753,
+      "created": 1651618917236,
+      "url": "{{base_url}}/exercise",
+      "name": "Exercicio List",
+      "description": "Retorna uma lista contendo todos os exercícios cadastrados no banco de dados",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330145.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_681e59db81874c0ea23554a5a2f63848",
+      "parentId": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "modified": 1651862773962,
+      "created": 1651619109570,
+      "url": "{{base_url}}/exercise/{% response 'body', 'req_000b2fe3fd544a53b54c86fe5a6992a8', 'b64::JFswXS5pZA==::46b', 'always', 60 %}",
+      "name": "Exercicio Single",
+      "description": "Retorna as informações do exercício indicado na url",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330120.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0747cbdb46374fc68891298f3b3e61d2",
+      "parentId": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "modified": 1651862786913,
+      "created": 1651619017415,
+      "url": "{{base_url}}/exercise/{% response 'body', 'req_681e59db81874c0ea23554a5a2f63848', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Exercicio Update",
+      "description": "Atualiza as informações de um exercício no banco de dados",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"repeticoes\": 10\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_264b2467b10340b1bbc77a0420de1cfc"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330095.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9515af87fd484aa8bd38fbcd2a7da825",
+      "parentId": "fld_04769b8ee8cb452c8581a783abfe5b39",
+      "modified": 1651862791267,
+      "created": 1651619233165,
+      "url": "{{base_url}}/exercise/{% response 'body', 'req_681e59db81874c0ea23554a5a2f63848', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Exercicio Delete",
+      "description": "Deleta um exercício do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330045.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_7da2211365a344acaa8d8bbdfc33997a",
+      "parentId": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "modified": 1651862988856,
+      "created": 1651619355461,
+      "url": "{{base_url}}/training",
+      "name": "Treino New",
+      "description": "Cadastra um novo treino no banco de dados",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"A\",\n  \"personal_id\": \"{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC51c2VyLmlk::46b', 'always', 60 %}\",\n  \"aluno_id\": \"{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC51c2VyLmFsdW5vc1swXS5pZA==::46b', 'always', 60 %}\",\n\t\"email_aluno\": \"{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC51c2VyLmFsdW5vc1swXS5lbWFpbA==::46b', 'always', 60 %}\",\n  \"dia\": \"Segunda-Feira\",\n  \"exercicios\": [\"Barra\", \"Supino Reto\"]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_00378a04829c45f5b61cc2e656676246"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330195.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651619355458,
+      "created": 1651619355458,
+      "name": "Treino",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1650725260148.5,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_ba7edb8366bd48619ee1fe3370d6db88",
+      "parentId": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "modified": 1651862813675,
+      "created": 1651619355462,
+      "url": "{{base_url}}/training",
+      "name": "Treino List",
+      "description": "Retorna uma lista contendo todos os treinos cadastrados no banco de dados",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330145.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_72e36ddecb294e8a9b5148f0becf2a13",
+      "parentId": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "modified": 1651862815264,
+      "created": 1651619355463,
+      "url": "{{base_url}}/training/{% response 'body', 'req_ba7edb8366bd48619ee1fe3370d6db88', 'b64::JC50cmVpbm9zWzBdLmlk::46b', 'always', 60 %}",
+      "name": "Treino Single",
+      "description": "Retorna as informações do treino indicado na url",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1651246330120.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_075ef06d6572473192e9b0a3e041f225",
+      "parentId": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "modified": 1651863035783,
+      "created": 1651619355463,
+      "url": "{{base_url}}/training/{% response 'body', 'req_72e36ddecb294e8a9b5148f0becf2a13', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Treino Update",
+      "description": "Atualiza as informações de um treino no banco de dados",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"exercicios\": [\"Barra Inclinada\", \"Supino Reto\"]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_264b2467b10340b1bbc77a0420de1cfc"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330095.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b978a27eda454a88bb250c12b65ee7ec",
+      "parentId": "fld_173e985ddd89495483bb5294f3c9e5e7",
+      "modified": 1651863038863,
+      "created": 1651619355464,
+      "url": "{{base_url}}/training/{% response 'body', 'req_72e36ddecb294e8a9b5148f0becf2a13', 'b64::JC5pZA==::46b', 'always', 60 %}",
+      "name": "Treino Delete",
+      "description": "Deleta um treino do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_07ef658b4369437db40dc708fa2fab25', 'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      },
+      "metaSortKey": -1651246330045.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_d3653345134b982e064d7c9a306f3e0203e5fa79",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651863105417,
+      "created": 1651193091671,
+      "name": "Base Environment",
+      "data": { "base_url": "https://kenzie-fit.herokuapp.com" },
+      "dataPropertyOrder": { "&": ["base_url"] },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1651193091671,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_d3653345134b982e064d7c9a306f3e0203e5fa79",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651193091672,
+      "created": 1651193091672,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_302a7ed1568b47479c9d14af5fb35c78",
+      "parentId": "wrk_15890a167d25469787e9ae48178ddf2b",
+      "modified": 1651193091669,
+      "created": 1651193091669,
+      "fileName": "CAPSTONE Q3",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}
